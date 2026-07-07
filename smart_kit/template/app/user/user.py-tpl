@@ -1,4 +1,3 @@
-from typing import List
 from functools import cached_property
 
 from core.model.field import Field
@@ -16,7 +15,7 @@ class CustomUser(User):
         super().__init__(id, message, db_data, settings, descriptions, parametrizer_cls, load_error)
 
     @property
-    def fields(self) -> List[Field]:
+    def fields(self) -> list[Field]:
         """Возвращает список полей с данными пользователя"""
         return super().fields + []
 

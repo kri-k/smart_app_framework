@@ -1,7 +1,7 @@
 """
 # Данные о содержимом экрана пользователя.
 """
-from typing import Dict, Optional
+from typing Optional
 
 from pydantic import BaseModel, Field
 
@@ -85,29 +85,29 @@ class AssistantMeta(BaseModel):
     """Данные о режиме работы устройства."""
     current_app: Optional[CurrentApp] = Field(default=None)
     """Информация о текущем аппе."""
-    host_meta: Optional[Dict] = Field(default=None)
+    host_meta: Optional[dict] = Field(default=None)
     """
     Произвольный JSON-объект, который заполняет хост приложение, в которое встроено Assistant SDK.
     Например 2gis, будет заполнять координаты, текущий экран, регион и другие данные, которые доступны в приложении 2gis
     """
     mobile_sdk_data: Optional[str] = Field(default=None)
     """Данные для анти-фрода, закодировааные в base64-строку"""
-    network: Optional[Dict] = Field(default=None)
+    network: Optional[dict] = Field(default=None)
     """Информация о сети"""
-    user_settings: Optional[Dict] = Field(default=None)
+    user_settings: Optional[dict] = Field(default=None)
     """Пользовательские настройки"""
     location: Optional[MetaLocation] = Field(default=None)
     """Данные о расположении устройства"""
-    experimental_flags: Optional[Dict] = Field(default=None)
+    experimental_flags: Optional[dict] = Field(default=None)
     """Параметры сети"""
-    volume: Optional[Dict] = Field(default=None)
+    volume: Optional[dict] = Field(default=None)
     """Информация о громкости"""
     start_audio_recording_source: Optional[str] = Field(default=None)
     """Откуда был инициирован голосовой запрос, например в приложении 2gis есть две точки входа,
     для разных точек входа тут будет разные значения"""
-    background_apps: Optional[Dict] = Field(default=None)
+    background_apps: Optional[dict] = Field(default=None)
     """Фоновые приложения"""
-    installed_apps: Optional[Dict] = Field(default=None)
+    installed_apps: Optional[dict] = Field(default=None)
     """Установленные приложения"""
-    capabilities_state: Optional[Dict] = Field(default=None)
+    capabilities_state: Optional[dict] = Field(default=None)
     """Стейт внешних устройств"""

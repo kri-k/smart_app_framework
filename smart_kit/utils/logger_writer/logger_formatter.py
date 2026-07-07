@@ -1,7 +1,6 @@
-# coding: utf-8
 from datetime import datetime
 from numbers import Number
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from pythonjsonlogger import jsonlogger
 import logging
@@ -19,14 +18,14 @@ def to_num(s):
 
 TYPES = {
     "str": str,
-    "dict": Dict,
+    "dict": dict,
     "int": Number,
     "bool": bool,
 }
 
 TYPE_CASTS = {
     "str": str,
-    "dict": Dict,
+    "dict": dict,
     "int": to_num,
     "bool": bool,
 }
@@ -43,7 +42,7 @@ class SmartKitJsonFormatter(jsonlogger.JsonFormatter):
     APPLICATION_NAME = "NA"
 
     def __init__(self, *args, **kwargs):
-        self.fields_type: Dict = kwargs.pop("fields_type", None)
+        self.fields_type: dict = kwargs.pop("fields_type", None)
         super().__init__(*args, **kwargs)
 
     def add_fields(self, log_record, record, message_dict):
@@ -61,7 +60,7 @@ class SmartKitJsonFormatter(jsonlogger.JsonFormatter):
         if isinstance(record.args, dict):
             log_record["args"] = self._check_fields(record.args)
 
-    def _check_fields(self, record_args: Dict[str, Any], types: Optional[Dict[str, Dict]] = None):
+    def _check_fields(self, record_args: dict[str, Any], types: Optional[dict[str, dict]] = None):
         if types is None:
             types = self.fields_type
         if types is None:

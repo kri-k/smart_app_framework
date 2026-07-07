@@ -6,7 +6,7 @@ usage: begin_date, end_date = period_determiner(words_to_process)
 """
 
 import re
-from typing import List, Tuple, Optional
+from typing import Tuple, Optional
 from datetime import datetime, timedelta
 
 
@@ -39,7 +39,7 @@ class StateMachineForDateDetermining:
     _is_period: bool
     _is_determined: bool
     _is_error: bool
-    _date_period: List[Optional[datetime]]
+    _date_period: list[Optional[datetime]]
     _day: int
     _month: int
     _year: int
@@ -50,7 +50,7 @@ class StateMachineForDateDetermining:
     # если любое следующее слово ошибка, как в случае текста "сегодня",
     # то _next_expected_words = []
     # если не рассматриваем следующие слова, то _next_expected_words = None
-    _next_expected_words: Optional[List[str]]
+    _next_expected_words: Optional[list[str]]
 
     # дескриптор относительного периода:
     #  1 - указание на текущий период - нынешний, текущий, сегодняшний, этот
@@ -460,7 +460,7 @@ def safe_datetime(year: int, month: int, day: int) -> Optional[datetime]:
         raise IncorrectDateException("Некорректная дата") from exc
 
 
-def match_word_with_list(word_to_check: str, list_of_pattern_words: List[str]) -> int:
+def match_word_with_list(word_to_check: str, list_of_pattern_words: list[str]) -> int:
     """
     Проверяем слово на вхождение в список слов, указанных без окончания.
     Примеры:
@@ -493,7 +493,7 @@ def is_from_date_dictionary(word: str) -> bool:
     """
 
     # некоторые слова лишены окончания для нивелирования влияния падежей
-    list_of_dictionary: List[str] = [
+    list_of_dictionary: list[str] = [
         "от",
         "с",
         "со",
@@ -535,7 +535,7 @@ def is_from_date_dictionary(word: str) -> bool:
 
 
 def period_determiner(
-    words: List[str], max_days_in_period: Optional[int] = None, future_days_allowed: bool = False
+    words: list[str], max_days_in_period: Optional[int] = None, future_days_allowed: bool = False
 ) -> Tuple[str, str]:
     """
     Входная функция модуля, ее вызываем для получения дат.
@@ -619,7 +619,7 @@ def period_determiner(
     return begin_of_period, end_of_period
 
 
-def date_determiner(words: List[str]) -> Tuple[Optional[str], Optional[str]]:
+def date_determiner(words: list[str]) -> Tuple[Optional[str], Optional[str]]:
     """
     Краеугольная функция всего модуля.
     Функция определяет дату на основе переданных слов на русском языке.
@@ -641,7 +641,7 @@ def date_determiner(words: List[str]) -> Tuple[Optional[str], Optional[str]]:
     return state_machine.result
 
 
-def extract_words_describing_period(words_from_intent: List[str]) -> List[str]:
+def extract_words_describing_period(words_from_intent: list[str]) -> list[str]:
     """
     Функция извлекает список слов, описываюищих период,
     для последующей передачи функциям для определения периода
@@ -650,7 +650,7 @@ def extract_words_describing_period(words_from_intent: List[str]) -> List[str]:
     :return: список слов описывающих период
     """
 
-    words_to_process: List[str] = []
+    words_to_process: list[str] = []
     for word in words_from_intent:
         if (
                 word.isnumeric() or

@@ -1,6 +1,6 @@
 """Модель ответа от ассистента."""
 
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 from pydantic import BaseModel, Field
 
@@ -151,7 +151,7 @@ class ASRHints(BaseModel):
     # Описание модели ASRHints.
     """
 
-    words: List[str] = Field(default_factory=list)
+    words: list[str] = Field(default_factory=list)
     """
     Позволяет использовать список слов или фраз, распознавание которых мы хотим усилить.
     Здесь можно перечислить слова, которые с высокой вероятностью будет произносить пользователь,
@@ -216,7 +216,7 @@ class AssistantResponsePayload(BaseModel):
     """Эмоция ассистента, которую он показывает с помощью лавашара"""
     auto_listening: bool = Field(default=False)
     """Указывает, что ассистент должен слушать пользователя после выполнения действия, по умолчанию false"""
-    items: Optional[List[Union[CanvasAppItem, Bubble]]] = Field(default_factory=list)
+    items: Optional[list[Union[CanvasAppItem, Bubble]]] = Field(default_factory=list)
     """Список команд и элементов интерфейса смартапа"""
     intent: Optional[str] = Field(default=None)
     """Интент, который смартап получит в следующем ответе ассистента"""
@@ -236,7 +236,7 @@ class AssistantResponsePayload(BaseModel):
     """
     asr_hints: Optional[ASRHints] = Field(default=None)
     """Подсказки для сервиса синтеза и распознавания речи."""
-    suggestions: Optional[List[Button]] = Field(default_factory=list)
+    suggestions: Optional[list[Button]] = Field(default_factory=list)
     """
     Предложения, которые смартап может сделать пользователю в зависимости от контекста диалога.
     Предложения могут быть представлены в виде кнопок и карточек.

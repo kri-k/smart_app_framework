@@ -51,7 +51,7 @@ def error_action(message: BaseMessage, context: Context, form: Form) -> ErrorRes
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 from core.logging.logger_utils import behaviour_log
 from nlpf_statemachine.const import DEFAULT_ACTION
@@ -70,13 +70,13 @@ class Scenario:
     id: str
     """Идентификатор текущего сценария. Для страниц должен совпадать с наименованием экрана"""
 
-    classifiers: List[Classifier]
+    classifiers: list[Classifier]
     """Множество классификаторов на сценарии"""
 
     form: Optional[Form]
     """Описание формы на сценарии (множество функция для извлечения слотов)"""
 
-    actions: Dict[str, Dict[str, List[Action]]]
+    actions: dict[str, dict[str, list[Action]]]
     """
     Словарь экшенов
     Структура: событие -> словарь базовых событий к экшенам
@@ -88,7 +88,7 @@ class Scenario:
     error_action: Optional[Action]
     """Экшен на ошибку (срабатывает, если вылетает ошибка в экшенах)"""
 
-    timeout_actions: Dict[str, Dict[str, List[Action]]]
+    timeout_actions: dict[str, dict[str, list[Action]]]
     """
     Словарь экшенов на таймаут в интеграцию
     Структура: наименование запроса -> словарь базовых событий к экшенам
@@ -110,8 +110,8 @@ class Scenario:
 
     # ==== DesignTime Methods ====
     @staticmethod
-    def _extend_actions_dict(base_actions: Dict[str, Dict[str, List[Action]]],
-                             scenario_actions: Dict[str, Dict[str, List[Action]]]) -> None:
+    def _extend_actions_dict(base_actions: dict[str, dict[str, list[Action]]],
+                             scenario_actions: dict[str, dict[str, list[Action]]]) -> None:
         """
         ## Добавление экшенов со стороннего сценария.
         """
@@ -146,7 +146,7 @@ class Scenario:
 
     def _add_action(self,
                     event: str,
-                    container: Dict,
+                    container: dict,
                     action: Action or Callable,
                     base_event: Optional[str] = None,
                     enabled: Optional[bool] = None) -> None:
@@ -216,7 +216,7 @@ class Scenario:
 
         ## Пример использования
         ```python
-        def action(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def action(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ...
         scenario.add_action(event="EVENT", action=action)
@@ -225,7 +225,7 @@ class Scenario:
         Аналогично можно использовать декоратор `nlpf_statemachine.kit.scenario.Scenario.on_event`:
         ```python
         @scenario.on_event(event="EVENT)
-        def action(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def action(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ```
 
@@ -248,7 +248,7 @@ class Scenario:
         )
 
     def add_action_on_multiple(
-            self, events: List[str], action: Action or Callable, base_event: Optional[str] = None,
+            self, events: list[str], action: Action or Callable, base_event: Optional[str] = None,
             enabled: Optional[bool] = True,
     ) -> None:
         """
@@ -256,14 +256,14 @@ class Scenario:
 
         # Пример использования
         ```python
-        def add_action_on_multiple(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def add_action_on_multiple(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ...
         scenario.add_action_on_multiple(events=["EVENT"], action=action)
         ```
 
         Args:
-            events (List[str]): Список событий, к которым привязывается экшен
+            events (list[str]): Список событий, к которым привязывается экшен
             action (nlpf_statemachine.kit.actions.Action or Callable): Экшен, который привязывается к событию
                 (функция обработчик)
             base_event (str, optional): Базовое событие
@@ -310,7 +310,7 @@ class Scenario:
 
         ## Пример использования
         ```python
-        def timeout_action(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def timeout_action(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ...
         scenario.add_timeout_action(action=timeout_action, request_name="REQUEST_NAME")
@@ -319,7 +319,7 @@ class Scenario:
         Аналогично можно использовать декоратор `nlpf_statemachine.kit.scenario.Scenario.on_timeout`:
         ```python
         @scenario.on_timeout(request_name="REQUEST_NAME")
-        def timeout_action(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def timeout_action(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ```
 
@@ -349,7 +349,7 @@ class Scenario:
 
         ## Пример использования
         ```python
-        def error_action(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def error_action(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ...
         scenario.add_error_action(action=error_action)
@@ -358,7 +358,7 @@ class Scenario:
         Аналогично можно использовать декоратор `nlpf_statemachine.kit.scenario.Scenario.on_error`:
         ```python
         @scenario.on_error()
-        def error_action(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def error_action(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ```
 
@@ -377,7 +377,7 @@ class Scenario:
 
         ## Пример использования
         ```python
-        def fallback_action(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def fallback_action(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ...
         scenario.add_fallback_action(action=fallback_action)
@@ -386,7 +386,7 @@ class Scenario:
         Аналогично можно использовать декоратор `nlpf_statemachine.kit.scenario.Scenario.on_fallback`:
         ```python
         @scenario.on_fallback()
-        def fallback_action(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def fallback_action(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ```
 
@@ -449,7 +449,7 @@ class Scenario:
         ## Пример использования:
         ```python
         @scenario.on_event(event="EVENT)
-        def action(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def action(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ```
 
@@ -502,7 +502,7 @@ class Scenario:
 
         Args:
             event (str): Обрабатываемое событие
-            base_events (List): Наименование базовых событий
+            base_events (list): Наименование базовых событий
             enabled (bool): Флаг для отключения данного экшена
 
         Returns:
@@ -532,7 +532,7 @@ class Scenario:
         ## Пример использования:
         ```python
         @scenario.on_timeout(request_name="REQUEST_NAME", base_event="EVENT")
-        def action(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def action(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ```
 
@@ -562,7 +562,7 @@ class Scenario:
         ## Пример использования:
         ```python
         @scenario.on_error()
-        def error_action(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def error_action(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ```
 
@@ -592,7 +592,7 @@ class Scenario:
         ## Пример использования:
         ```python
         @scenario.on_fallback()
-        def fallback_action(message: BaseMessage, context: Context, form: Dict) -> Response:
+        def fallback_action(message: BaseMessage, context: Context, form: dict) -> Response:
             ...
         ```
 
@@ -612,7 +612,7 @@ class Scenario:
 
     # ==== Runtime Methods ====
     def fill_form(self, message: MessageToSkill, context: Context,
-                  text_preprocessing_result: Any, user: SMUser) -> Dict:
+                  text_preprocessing_result: Any, user: SMUser) -> dict:
         """
         ## Заполнение формы на текущем сценарии.
 
@@ -626,7 +626,7 @@ class Scenario:
             user (nlpf_statemachine.override.user.SMUser): Объект NLPF User
 
         Returns:
-            Dict: словарь, с заполненными слотами.
+            dict: словарь, с заполненными слотами.
         """
         if self.form:
             return self.form.fill(message, context, text_preprocessing_result, user)
@@ -653,7 +653,7 @@ class Scenario:
         )
 
     async def _run_action(self, event: str, action: Action, message: BaseMessage,
-                          context: Context, form: Dict) -> Optional[Response]:
+                          context: Context, form: dict) -> Optional[Response]:
         """
         ## Запуск экшена.
 
@@ -662,7 +662,7 @@ class Scenario:
             action (nlpf_statemachine.kit.actions.Action): Обработчик события
             message (nlpf_statemachine.models.message.protocol.assistant_message.BaseMessage): Тело запроса
             context (nlpf_statemachine.models.context.Context): Контекст
-            form (Dict[str, Any]): Форма
+            form (dict[str, Any]): Форма
 
         Returns:
             Response: ответ от экшена. (объект наследник Response)
@@ -674,7 +674,7 @@ class Scenario:
             context.last_response_message_name = response.messageName
             return response
 
-    async def run_event(self, event: str, message: BaseMessage, context: Context, form: Dict) -> Optional[Response]:
+    async def run_event(self, event: str, message: BaseMessage, context: Context, form: dict) -> Optional[Response]:
         """
         ## Запуск обработчика события на сценарии (поиск экшена).
 
@@ -691,7 +691,7 @@ class Scenario:
             event (str): Обрабатываемое событие
             message (nlpf_statemachine.models.message.protocol.assistant_message.BaseMessage): Тело запроса
             context (nlpf_statemachine.models.context.Context): Контекст
-            form (Dict[str, Any]): Форма
+            form (dict[str, Any]): Форма
 
         Returns:
             Response: ответ от экшена. (объект наследник Response)
@@ -713,7 +713,7 @@ class Scenario:
                 if response:
                     return response
 
-    async def run_error_action(self, message: BaseMessage, context: Context, form: Dict) -> Optional[Response]:
+    async def run_error_action(self, message: BaseMessage, context: Context, form: dict) -> Optional[Response]:
         """
         ## Запуск обработчика ошибки на сценарии (если он определён).
 
@@ -722,7 +722,7 @@ class Scenario:
         Args:
             message (nlpf_statemachine.models.message.protocol.assistant_message.BaseMessage): Тело запроса
             context (nlpf_statemachine.models.context.Context): Контекст
-            form (Dict[str, Any]): Форма
+            form (dict[str, Any]): Форма
 
         Returns:
             Response: ответ от error-экшена. (объект наследник Response)
@@ -734,7 +734,7 @@ class Scenario:
                 event=Event.ERROR, message=message, action=self.error_action, context=context, form=form,
             )
 
-    async def run_timeout_action(self, message: BaseMessage, context: Context, form: Dict) -> Optional[Response]:
+    async def run_timeout_action(self, message: BaseMessage, context: Context, form: dict) -> Optional[Response]:
         """
         ## Запуск обработчика таймаута на сценарии.
 
@@ -751,7 +751,7 @@ class Scenario:
         Args:
             message (nlpf_statemachine.models.message.protocol.assistant_message.BaseMessage): Тело запроса
             context (nlpf_statemachine.models.context.Context): Контекст
-            form (Dict[str, Any]): Форма
+            form (dict[str, Any]): Форма
 
         Returns:
             Response: ответ от таймаут-экшена (объект наследник Response)
@@ -777,7 +777,7 @@ class Scenario:
                         return response
 
     async def run_default_timeout_action(
-            self, message: BaseMessage, context: Context, form: Dict,
+            self, message: BaseMessage, context: Context, form: dict,
     ) -> Optional[Response]:
         """
         ## Запуск дефолтного обработчика таймаута на сценарии.
@@ -790,7 +790,7 @@ class Scenario:
         Args:
             message (nlpf_statemachine.models.message.protocol.assistant_message.BaseMessage): Тело запроса
             context (nlpf_statemachine.models.context.Context): Контекст
-            form (Dict[str, Any]): Форма
+            form (dict[str, Any]): Форма
 
         Returns:
             Response: ответ от таймаут-экшена (объект наследник Response)
@@ -802,7 +802,7 @@ class Scenario:
                 action=self.default_timeout_action, context=context, form=form,
             )
 
-    async def run_fallback(self, message: MessageToSkill, context: Context, form: Dict) -> Optional[Response]:
+    async def run_fallback(self, message: MessageToSkill, context: Context, form: dict) -> Optional[Response]:
         """
         ## Запуск обработчика фоллбека на сценарии.
 
@@ -815,7 +815,7 @@ class Scenario:
         Args:
             message (nlpf_statemachine.models.message.message.MessageToSkill): Тело запроса
             context (nlpf_statemachine.models.context.Context): Контекст
-            form (Dict[str, Any]): Форма
+            form (dict[str, Any]): Форма
 
         Returns:
             Response: ответ от фоллбек-экшена. (объект наследник Response)
@@ -826,7 +826,7 @@ class Scenario:
                 event=Event.FALLBACK, message=message, action=self.fallback_action, context=context, form=form,
             )
 
-    def run_classifier(self, message: MessageToSkill, context: Context, form: Dict,
+    def run_classifier(self, message: MessageToSkill, context: Context, form: dict,
                        text_preprocessing_result: Any, user: SMUser) -> Optional[str]:
         """
         ## Поиск события на сценарии.
@@ -839,7 +839,7 @@ class Scenario:
         Args:
             message (nlpf_statemachine.models.message.message.MessageToSkill): Тело запроса
             context (nlpf_statemachine.models.context.Context): Контекст
-            form (Dict[str, Any]): Форма
+            form (dict[str, Any]): Форма
             text_preprocessing_result: Объект NLPF TextPreprocessingResult
             user (nlpf_statemachine.override.user.SMUser): Объект NLPF User
 

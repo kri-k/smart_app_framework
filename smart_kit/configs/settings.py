@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import os
 from io import StringIO
-from typing import Any, Union, List, Optional
+from typing import Any, Optional, Union
 
 import yaml
 
@@ -77,7 +77,7 @@ class Settings(BaseConfig, metaclass=SingletonOneInstance):
                 if isinstance(repo, UpdatableFileRepository):
                     repo.update_cooldown = update_time
 
-    def override_repositories(self, repositories: List):
+    def override_repositories(self, repositories: list):
         """
         Метод предназначен для переопределения репозиториев в дочерних классах.
         :param repositories: Список репозиториев родителя
@@ -85,7 +85,7 @@ class Settings(BaseConfig, metaclass=SingletonOneInstance):
         """
         return repositories
 
-    def _load_base_repositories(self) -> List[FileRepository]:
+    def _load_base_repositories(self) -> list[FileRepository]:
         """Load base repositories with service settings"""
         template_settings_repo = SecretUpdatableFileRepository(
             filename=self.subfolder_path("template_config.yml"),

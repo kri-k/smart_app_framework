@@ -12,12 +12,12 @@ class LimitedQueuedHashableObjectsTest(unittest.TestCase):
 
     def test_raw(self):
         last_messages_id = LimitedQueuedHashableObjects([1, 2, 3], self.descr)
-        self.assertListEqual(last_messages_id.raw, [1, 2, 3])
+        self.assertlistEqual(last_messages_id.raw, [1, 2, 3])
 
     def test_add_true(self):
         last_messages_id = LimitedQueuedHashableObjects([1, 2, 3], self.descr)
         last_messages_id.check(4)
-        self.assertListEqual(last_messages_id.raw, [1, 2, 3, 4])
+        self.assertlistEqual(last_messages_id.raw, [1, 2, 3, 4])
 
     def test_add_false(self):
         ids = list(range(0, self.descr.max_len))
@@ -27,7 +27,7 @@ class LimitedQueuedHashableObjectsTest(unittest.TestCase):
         new_ids = ids
         new_ids.pop(0)
         new_ids.append(new_id)
-        self.assertListEqual(last_messages_id.raw, new_ids)
+        self.assertlistEqual(last_messages_id.raw, new_ids)
 
     def test_check_true(self):
         last_messages_id = LimitedQueuedHashableObjects([1, 2, 3], self.descr)

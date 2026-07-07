@@ -1,7 +1,7 @@
 """
 # Утилиты, используемые под капотом в NLPF StateMachine.
 """
-from typing import Any, Callable, Dict, Optional, Type
+from typing import Any, Callable, Optional, Type
 
 from nlpf_statemachine.models import AssistantMessage, AssistantState, BaseMessage, ServerActionMessage
 
@@ -34,7 +34,7 @@ def get_kwargs(
         function: Callable,
         message: BaseMessage,
         **kwargs,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     ## Получение аргументов, которые требует функция.
 
@@ -43,7 +43,7 @@ def get_kwargs(
         message (nlpf_statemachine.models.message.message.MessageToSkill): Тело запроса.
 
     Returns:
-        Dict[str, Any]: Параметры для функции.
+        dict[str, Any]: Параметры для функции.
     """
     func_kwargs = {}
     args = function.__code__.co_varnames[:function.__code__.co_argcount]

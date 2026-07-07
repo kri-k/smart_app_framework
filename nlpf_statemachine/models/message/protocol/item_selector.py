@@ -1,7 +1,7 @@
 """
 # Описание ItemSelector.
 """
-from typing import Any, Optional, List, Dict
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
@@ -34,9 +34,9 @@ class AssistantVoiceAction(BaseModel):
     """Ключевая фраза, которая должна приводить к данному действию."""
     type: Optional[str] = Field(default=None)
     """Тип элемента."""
-    paraphrases: Optional[List[str]] = Field(default=None)
+    paraphrases: Optional[list[str]] = Field(default=None)
     """Фразы-синонимы, которые должны быть расценены как данное действие."""
-    payload: Optional[Dict] = Field(default=None)
+    payload: Optional[dict] = Field(default=None)
     """Дополнительные данные для бэкенда."""
     action: Optional[AssistantViewAction] = Field(default=None)
     """Объект, который ожидается к возвращению в веб-приложение."""
@@ -49,5 +49,5 @@ class ItemSelector(BaseModel):
     Множество объектов, которые можно вызвать голосом.
     """
 
-    items: Optional[List[AssistantVoiceAction]] = Field(default=None)
+    items: Optional[list[AssistantVoiceAction]] = Field(default=None)
     """Список элементов."""

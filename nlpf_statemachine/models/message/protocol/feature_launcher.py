@@ -1,7 +1,7 @@
 """
 # Модели для описания фиче-лаунчера.
 """
-from typing import List, Optional, Dict
+from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -11,7 +11,7 @@ class PublicFL(BaseModel):
     # Общая коллекция флагов, которые предназначены для всех сервисов/навыков.
     """
 
-    greenfield_segment_list: Optional[List[str]] = Field(default=None)
+    greenfield_segment_list: Optional[list[str]] = Field(default=None)
     """Список сегментов GF к которым принадлежит пользователь"""
     greenfield_percentage: Optional[int] = Field(default=None)
     """
@@ -27,9 +27,9 @@ class FeatureLauncher(BaseModel):
     # Модель фиче лончера.
     """
 
-    assigned_testing_groups: Optional[List[str]] = Field(default=None)
+    assigned_testing_groups: Optional[list[str]] = Field(default=None)
     """Список групп тестирования в которые попал пользователь"""
     public: Optional[PublicFL] = Field(default=None)
     """Общая коллекция флагов, которые предназначены для всех сервисов/навыков"""
-    nlp_platform: Optional[Dict] = Field(default=None)
+    nlp_platform: Optional[dict] = Field(default=None)
     """Общая секция"""

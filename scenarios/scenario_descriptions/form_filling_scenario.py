@@ -1,6 +1,6 @@
 # coding: utf-8
 from functools import lru_cache
-from typing import Dict, Any, Tuple, List
+from typing import Any, Tuple
 
 import scenarios.logging.logger_constants as log_const
 from core.basic_models.actions.command import Command
@@ -114,7 +114,7 @@ class FormFillingScenario(BaseScenario):
         return result
 
     async def _validate_extracted_data(self, user, text_preprocessing_result, form,
-                                       data_extracted, params) -> List[Command]:
+                                       data_extracted, params) -> list[Command]:
         error_msgs = []
         for field_key, field in form.description.fields.items():
             value = data_extracted.get(field_key)
@@ -131,7 +131,7 @@ class FormFillingScenario(BaseScenario):
                 break
         return error_msgs
 
-    async def _fill_form(self, user, text_preprocessing_result, form, data_extracted) -> Tuple[List[Command], bool]:
+    async def _fill_form(self, user, text_preprocessing_result, form, data_extracted) -> Tuple[list[Command], bool]:
         on_filled_actions = []
         fields = form.fields
         scenario_model = user.scenario_models[self.id]
@@ -149,7 +149,7 @@ class FormFillingScenario(BaseScenario):
                     return _action, is_break
         return on_filled_actions, is_break
 
-    async def get_reply(self, user, text_preprocessing_result, reply_actions, field, form) -> List[Command]:
+    async def get_reply(self, user, text_preprocessing_result, reply_actions, field, form) -> list[Command]:
         action_params = {}
         if field:
             field.set_available()
@@ -187,7 +187,7 @@ class FormFillingScenario(BaseScenario):
         return masking(data=data, masking_fields=masking_fields)
 
     @monitoring.got_histogram("scenario_time")
-    async def run(self, text_preprocessing_result, user, params: Dict[str, Any] = None) -> List[Command]:
+    async def run(self, text_preprocessing_result, user, params: dict[str, Any] = None) -> list[Command]:
         form = self._get_form(user)
         user.last_scenarios.add(self.id, text_preprocessing_result)
         user.preprocessing_messages_for_scenarios.add(text_preprocessing_result)

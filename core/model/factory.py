@@ -1,7 +1,7 @@
 # coding: utf-8
 import functools
 from collections import OrderedDict
-from typing import TypeVar, Type, List, Callable, Any, Dict
+from typing import TypeVar, Type, Callable, Any
 
 from core.model.registered import registered_factories, Registered
 
@@ -41,9 +41,9 @@ def factory(type: Type[T], **params) -> Callable[[Type[T]], Callable]:
 def list_factory(type: Type[T], **params) -> Callable[[Type[T]], Callable]:
     def _inner(func: Callable) -> Callable:
         @functools.wraps(func)
-        def _wrap(*args: Any, **kwargs: Any) -> List[T]:
+        def _wrap(*args: Any, **kwargs: Any) -> list[T]:
             cls: Type[T] = registered_factories[type]
-            res: List[T] = []
+            res: list[T] = []
             for items in func(*args, **kwargs) or []:
                 if not isinstance(items, dict):
                     res.append(cls(items))
@@ -59,7 +59,7 @@ def list_factory(type: Type[T], **params) -> Callable[[Type[T]], Callable]:
 def dict_factory(type: Type[T], has_id=True) -> Callable[[Type[T]], Callable]:
     def _inner(func: Callable) -> Callable:
         @functools.wraps(func)
-        def _wrap(*args: Any, **kwargs: Any) -> Dict[str, T]:
+        def _wrap(*args: Any, **kwargs: Any) -> dict[str, T]:
             cls: Type[T] = registered_factories[type]
             items_iterator = func(*args, **kwargs).items()
             if has_id:

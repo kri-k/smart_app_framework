@@ -2,7 +2,7 @@
 # Пример теста на сервер-экшен и команды.
 """
 import json
-from typing import List, Optional
+from typing import Optional
 
 from nlpf_statemachine.example.app.sc.enums.approve_values import ApproveValues
 from nlpf_statemachine.example.app.sc.models.context import ExampleContext
@@ -19,7 +19,7 @@ class TestFormAndIntersectionClassifier(SMTestCase):
     SMART_KIT_APP_CONFIG = "nlpf_statemachine.example.app_config"
     USER_CLASS = ExampleUser
 
-    def _load_tokenized_elements_list(self, prefix: str) -> Optional[List]:
+    def _load_tokenized_elements_list(self, prefix: str) -> Optional[list]:
         filename = f"{self.core.app_config.STATIC_PATH}" \
                    f"/tests/tokenized_element_list_example_4_intersection_classifier_{prefix}.json"
         with open(filename, "r") as file:

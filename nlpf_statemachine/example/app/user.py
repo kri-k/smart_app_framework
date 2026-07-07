@@ -4,7 +4,7 @@
 Для работы проекта необходимо относледовать свой `User` от базового класса
 `nlpf_statemachine.override.user.SMUser`.
 """
-from typing import Dict, List, Type
+from typing import Type
 
 from nlpf_statemachine.example.app.sc.enums.integration_message_names import IntegrationResponseMessageName
 from nlpf_statemachine.example.app.sc.models.context import ExampleContext
@@ -20,7 +20,7 @@ class ExampleUser(SMUser):
     """
 
     @property
-    def message_models(self) -> Dict[str, List[Type[BaseMessage]]]:
+    def message_models(self) -> dict[str, list[Type[BaseMessage]]]:
         """
         ## Определение моделей запросов.
 
@@ -29,7 +29,7 @@ class ExampleUser(SMUser):
         Иначе строится следующий объект.
 
         Returns:
-            Dict[str, List[Type[BaseMessage]]]
+            dict[str, list[Type[BaseMessage]]]
 
         """
         models = super(ExampleUser, self).message_models

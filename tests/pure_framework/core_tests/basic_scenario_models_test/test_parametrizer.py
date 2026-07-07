@@ -14,10 +14,10 @@ class ParametrizerTest(unittest.TestCase):
         expected = ["message"]
         parametrizer = BasicParametrizer(self.user, {})
         result = parametrizer._get_user_data(None)
-        self.assertListEqual(expected, list(result.keys()))
+        self.assertlistEqual(expected, list(result.keys()))
 
     def test_collect(self):
         expected = ["message"]
         parametrizer = BasicParametrizer(self.user, {})
         result = parametrizer._get_user_data(None)
-        self.assertListEqual(expected, list(result.keys()))
+        self.assertlistEqual(expected, list(result.keys()))

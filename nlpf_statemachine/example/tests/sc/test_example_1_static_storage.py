@@ -2,7 +2,7 @@
 # Пример тестов для работы со StaticStorage.
 """
 import json
-from typing import List, Optional
+from typing import Optional
 
 from nlpf_statemachine.example.app.sc.classifiers.original_text_classifier import Events
 from nlpf_statemachine.example.app.sc.models.context import ExampleContext
@@ -20,7 +20,7 @@ class ExampleStaticStorage(SMTestCase):
     SMART_KIT_APP_CONFIG = "nlpf_statemachine.example.app_config"
     USER_CLASS = ExampleUser
 
-    def _load_tokenized_elements_list(self, number: int) -> Optional[List]:
+    def _load_tokenized_elements_list(self, number: int) -> Optional[list]:
         filename = f"{self.core.app_config.STATIC_PATH}/tests/tokenized_element_list_static_storage_{number}.json"
         with open(filename, "r") as file:
             return json.load(file)
@@ -35,7 +35,7 @@ class ExampleStaticStorage(SMTestCase):
             None.
         """
 
-        async def _run_character(character_id: AssistantId, tokenized_elements_list: List) -> None:
+        async def _run_character(character_id: AssistantId, tokenized_elements_list: list) -> None:
             # ==== Mock ====
             message = self.mocks.message_to_skill(
                 original_text="статичный ответ номер один",
@@ -79,7 +79,7 @@ class ExampleStaticStorage(SMTestCase):
             None.
         """
 
-        async def _run_character(character_id: AssistantId, tokenized_elements_list: List) -> None:
+        async def _run_character(character_id: AssistantId, tokenized_elements_list: list) -> None:
             # ==== Mock ====
             message = self.mocks.message_to_skill(
                 original_text="статичный ответ номер два",
@@ -131,7 +131,7 @@ class ExampleStaticStorage(SMTestCase):
             None.
         """
 
-        async def _run_character(character_id: AssistantId, tokenized_elements_list: List) -> None:
+        async def _run_character(character_id: AssistantId, tokenized_elements_list: list) -> None:
             # ==== Mock ====
             message = self.mocks.message_to_skill(
                 original_text="статичный ответ номер три",
@@ -175,7 +175,7 @@ class ExampleStaticStorage(SMTestCase):
             None.
         """
 
-        async def _run_character(character_id: AssistantId, tokenized_elements_list: List) -> None:
+        async def _run_character(character_id: AssistantId, tokenized_elements_list: list) -> None:
             # ==== Mock ====
             message = self.mocks.message_to_skill(
                 original_text="статичный ответ номер четыре",

@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any
+from typing import Optional, Any
 
 from core.basic_models.requirement.basic_requirements import Requirement
 from core.text_preprocessing.preprocessing_result import TextPreprocessingResult
@@ -13,11 +13,11 @@ class CustomRequirement(Requirement):
     """
     cache_result = False  # Использовать ли закешированный результат в рамках обработки сообщения и совпадения items
 
-    def __init__(self, items: Dict[str, Any], id: Optional[str] = None) -> None:
+    def __init__(self, items: dict[str, Any], id: Optional[str] = None) -> None:
         super().__init__(items, id)
         items = items or {}
         self.test_param = items.get("test_param")
 
     def _check(self, text_preprocessing_result: TextPreprocessingResult,
-               user: User, params: Dict[str, Any] = None) -> bool:
+               user: User, params: dict[str, Any] = None) -> bool:
         return False

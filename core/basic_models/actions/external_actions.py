@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any, Union, List
+from typing import Optional, Any, Union
 
 from core.basic_models.actions.basic_actions import CommandAction, Action
 from core.basic_models.actions.basic_actions import action_factory
@@ -9,19 +9,19 @@ from core.text_preprocessing.base import BaseTextPreprocessingResult
 
 
 class ExternalActions(SmartUpdatableDescriptionsItems):
-    def __init__(self, items: Dict[str, Any]):
+    def __init__(self, items: dict[str, Any]):
         super(ExternalActions, self).__init__(action_factory, items)
 
 
 class ExternalAction(CommandAction):
     version: Optional[int]
 
-    def __init__(self, items: Dict[str, Any], id: Optional[str] = None):
+    def __init__(self, items: dict[str, Any], id: Optional[str] = None):
         super(ExternalAction, self).__init__(items, id)
         self._action_key: str = items["action"]
 
     async def run(self, user: BaseUser, text_preprocessing_result: BaseTextPreprocessingResult,
-                  params: Optional[Dict[str, Union[str, float, int]]] = None) -> List[Command]:
+                  params: Optional[dict[str, Union[str, float, int]]] = None) -> list[Command]:
         action: Action = user.descriptions["external_actions"][self._action_key]
         commands = await action.run(user, text_preprocessing_result, params)
         return commands

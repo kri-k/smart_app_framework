@@ -1,4 +1,4 @@
-from typing import Dict, Any, Optional, Union, List
+from typing import Any, Optional, Union
 
 from core.basic_models.actions.command import Command
 from core.basic_models.actions.string_actions import StringAction
@@ -29,13 +29,13 @@ class SmartGeoAction(StringAction):
     После исполнения команды и успешного ответа от smart geo API геоданные пользователя сохранятся в переменную внутри
     User `user.variables.smart_geo`
     """
-    def __init__(self, items: Dict[str, Any], id: Optional[str] = None):
+    def __init__(self, items: dict[str, Any], id: Optional[str] = None):
         super().__init__(items, id)
         self.command = GET_PROFILE_DATA
         self.behavior = items.get("behavior", "smart_geo_behavior")
 
     async def run(self, user: User, text_preprocessing_result: BaseTextPreprocessingResult,
-                  params: Optional[Dict[str, Union[str, float, int]]] = None) -> List[Command]:
+                  params: Optional[dict[str, Union[str, float, int]]] = None) -> list[Command]:
         scenario_id = user.last_scenarios.last_scenario_name
         user.behaviors.add(user.message.generate_new_callback_id(), self.behavior, scenario_id,
                            text_preprocessing_result.raw, action_params=pickle_deepcopy(params))

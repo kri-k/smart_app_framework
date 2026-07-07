@@ -4,7 +4,7 @@ import json
 import os
 from csv import DictWriter, QUOTE_MINIMAL
 from functools import cached_property
-from typing import AnyStr, Optional, Tuple, Any, Dict, Callable, List
+from typing import AnyStr, Optional, Tuple, Any, Callable
 
 from core.configs.global_constants import LINK_BEHAVIOR_FLAG
 from core.message.from_message import SmartAppFromMessage
@@ -28,7 +28,7 @@ def run_testfile(
         parametrizer_cls: type,
         from_msg_cls: type,
         test_case_cls: type[TestCase],
-        storaged_predefined_fields: Dict[str, Any],
+        storaged_predefined_fields: dict[str, Any],
         csv_file_callback: Optional[Callable[[str], Callable[[Any], None]]] = None,
         interactive: bool = False,
         test_suite: Optional["TestSuite"] = None,
@@ -148,7 +148,7 @@ class TestSuite:
 
 class TestCase:
     def __init__(self, app_model: SmartAppModel, settings: Settings, user_cls: type[User], parametrizer_cls: type,
-                 from_msg_cls: type[SmartAppFromMessage], messages: dict, storaged_predefined_fields: Dict[str, Any],
+                 from_msg_cls: type[SmartAppFromMessage], messages: dict, storaged_predefined_fields: dict[str, Any],
                  interactive: bool, csv_case_callback: Optional[Callable[[Any], None]] = None,
                  test_suite: Optional[TestSuite] = None, user: Optional[dict] = None,
                  override_configs: Optional[dict] = None):
@@ -170,7 +170,7 @@ class TestCase:
         self._saved_configs_states = {}
         self.apply_override_configs(override_configs or {})
 
-    def _compare_answers(self, answers: List[SmartAppToMessage], expected_response: dict) -> bool:
+    def _compare_answers(self, answers: list[SmartAppToMessage], expected_response: dict) -> bool:
         expected_answers = expected_response["messages"]
         success = True
 

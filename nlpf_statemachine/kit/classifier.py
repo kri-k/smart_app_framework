@@ -2,7 +2,7 @@
 # Классификаторы.
 """
 
-from typing import Dict, Optional
+from typing Optional
 
 import yaml
 
@@ -22,7 +22,7 @@ class Classifier:
         self.id = id
         self.screen = screen
 
-    def run(self, message: MessageToSkill, context: Context, form: Dict) -> Optional[str]:
+    def run(self, message: MessageToSkill, context: Context, form: dict) -> Optional[str]:
         """
         ## Запуск классификации.
 
@@ -31,7 +31,7 @@ class Classifier:
         Args:
             message (nlpf_statemachine.models.message.protocol.assistant_message.BaseMessage): Тело запроса.
             context (nlpf_statemachine.models.context.Context): Контекст.
-            form (Dict[str, Any]): Форма
+            form (dict[str, Any]): Форма
 
         Returns:
             str: результат классификации (event).
@@ -41,7 +41,7 @@ class Classifier:
     def run_legacy(
             self, message: MessageToSkill,
             context: Context,
-            form: Dict,
+            form: dict,
             text_preprocessing_result: TextPreprocessingResult,
             user: SMUser,
     ) -> Optional[str]:
@@ -51,7 +51,7 @@ class Classifier:
         Args:
             message (nlpf_statemachine.models.message.protocol.assistant_message.BaseMessage): Тело запроса.
             context (nlpf_statemachine.models.context.Context): Контекст.
-            form (Dict[str, Any]): Форма.
+            form (dict[str, Any]): Форма.
             text_preprocessing_result (TextPreprocessingResult): NLPF TextPreprocessingResult.
             user (SMUser): NLPF User.
 
@@ -80,7 +80,7 @@ class IntersectionClassifier(Classifier):
             self,
             message: MessageToSkill,
             context: Context,
-            form: Dict,
+            form: dict,
             text_preprocessing_result: TextPreprocessingResult,
             user: SMUser,
     ) -> Optional[str]:
@@ -90,7 +90,7 @@ class IntersectionClassifier(Classifier):
         Args:
             message (nlpf_statemachine.models.message.protocol.assistant_message.BaseMessage): Тело запроса.
             context (nlpf_statemachine.models.context.Context): Контекст.
-            form (Dict[str, Any]): Форма.
+            form (dict[str, Any]): Форма.
             text_preprocessing_result (TextPreprocessingResult): NLPF TextPreprocessingResult.
             user (SMUser): NLPF User.
 
@@ -111,14 +111,14 @@ class ConstClassifier(Classifier):
         super(ConstClassifier, self).__init__(id="IntersectionClassifier", screen=screen)
         self.value = value
 
-    def run(self, message: MessageToSkill, context: Context, form: Dict) -> Optional[str]:
+    def run(self, message: MessageToSkill, context: Context, form: dict) -> Optional[str]:
         """
         ## Запуск классификации.
 
         Args:
             message (nlpf_statemachine.models.message.protocol.assistant_message.BaseMessage): Тело запроса.
             context (nlpf_statemachine.models.context.Context): Контекст.
-            form (Dict[str, Any]): Форма.
+            form (dict[str, Any]): Форма.
 
         Returns:
             str: результат классификации (event).

@@ -3,7 +3,7 @@
 
 (может так же использоваться при запуске)
 """
-from typing import Optional, Dict
+from typing import Optional
 from pydantic import BaseModel, Field
 
 from .app_info import AppInfo
@@ -21,7 +21,7 @@ class ServerAction(BaseModel):
     """
     app_info: Optional[AppInfo] = Field(default=None)
     """Информация о смартапе."""
-    parameters: Optional[Dict] = Field(default=None)
+    parameters: Optional[dict] = Field(default=None)
     """
     Любые параметры, которые требуются для запуска смартапа.
     Параметры должны быть представлены в виде валидного JSON-объекта.

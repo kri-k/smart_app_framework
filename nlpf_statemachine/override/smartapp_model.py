@@ -1,7 +1,7 @@
 """
 # Переопределение NLPF SmartAppModel и хэндлеров для разных типов сообщений.
 """
-from typing import Any, List, Type
+from typing import Any, Type
 
 from core.basic_models.actions.command import Command
 from core.monitoring.monitoring import monitoring
@@ -29,7 +29,7 @@ class SMHandlerServerAction(HandlerServerAction):
         super(SMHandlerServerAction, self).__init__(app_name=app_name, action_name=action_name)
         self.dialogue_manager = dialogue_manager
 
-    async def run(self, payload: Any, user: SMUser) -> List[Command]:
+    async def run(self, payload: Any, user: SMUser) -> list[Command]:
         """
         ## Запуск обработчика.
 
@@ -38,7 +38,7 @@ class SMHandlerServerAction(HandlerServerAction):
             user (SMUser): Объект NLPF User.
 
         Returns:
-            List[Command]
+            list[Command]
         """
         action_id = self.get_action_name(payload, user)
         answer = await self.dialogue_manager.run_statemachine(action_id, TextPreprocessingResult({}), user)
@@ -61,7 +61,7 @@ class SMRunAppHandler(HandlerText, HandlerServerAction):
         self.action_name = action_name
         self.dialogue_manager = dialogue_manager
 
-    async def run(self, payload: Any, user: SMUser) -> List[Command]:
+    async def run(self, payload: Any, user: SMUser) -> list[Command]:
         """
         ## Запуск обработчика.
 
@@ -70,7 +70,7 @@ class SMRunAppHandler(HandlerText, HandlerServerAction):
             user (SMUser): Объект NLPF User.
 
         Returns:
-            List[Command]
+            list[Command]
         """
         if payload.get("message"):
             event = None
@@ -92,7 +92,7 @@ class SMHandlerText(HandlerText):
     # Переопределение обработчика для MessageToSkill.
     """
 
-    async def run(self, payload: Any, user: SMUser) -> List[Command]:
+    async def run(self, payload: Any, user: SMUser) -> list[Command]:
         """
         ## Запуск обработчика.
 
@@ -101,7 +101,7 @@ class SMHandlerText(HandlerText):
             user (SMUser): Объект NLPF User.
 
         Returns:
-            List[Command]
+            list[Command]
         """
         text_preprocessing_result = TextPreprocessingResult(payload.get("message", {}))
         answer = await self.dialogue_manager.run_statemachine(
@@ -125,7 +125,7 @@ class SMDefaultMessageHandler(HandlerBase):
         super(SMDefaultMessageHandler, self).__init__(app_name=app_name)
         self.dialogue_manager = dialogue_manager
 
-    async def run(self, payload: Any, user: SMUser) -> List[Command]:
+    async def run(self, payload: Any, user: SMUser) -> list[Command]:
         """
         ## Запуск обработчика.
 
@@ -134,7 +134,7 @@ class SMDefaultMessageHandler(HandlerBase):
             user (SMUser): Объект NLPF User.
 
         Returns:
-            List[Command]
+            list[Command]
         """
         event = user.message_pd.messageName
         answer = await self.dialogue_manager.run_statemachine(event, TextPreprocessingResult({}), user)
@@ -156,7 +156,7 @@ class SMHandlerTimeout(HandlerTimeout):
         super(SMHandlerTimeout, self).__init__(app_name=app_name)
         self.dialogue_manager = dialogue_manager
 
-    async def run(self, payload: Any, user: SMUser) -> List[Command]:
+    async def run(self, payload: Any, user: SMUser) -> list[Command]:
         """
         ## Запуск обработчика.
 
@@ -165,7 +165,7 @@ class SMHandlerTimeout(HandlerTimeout):
             user (SMUser): Объект NLPF User.
 
         Returns:
-            List[Command]
+            list[Command]
         """
         event = Event.LOCAL_TIMEOUT
         answer = await self.dialogue_manager.run_statemachine(event, TextPreprocessingResult({}), user)
@@ -183,7 +183,7 @@ class SMHandlerCloseApp(HandlerCloseApp):
         super(SMHandlerCloseApp, self).__init__(app_name=app_name)
         self.dialogue_manager = dialogue_manager
 
-    async def run(self, payload: Any, user: SMUser) -> List[Command]:
+    async def run(self, payload: Any, user: SMUser) -> list[Command]:
         """
         ## Запуск обработчика.
 
@@ -192,7 +192,7 @@ class SMHandlerCloseApp(HandlerCloseApp):
             user (SMUser): Объект NLPF User.
 
         Returns:
-            List[Command]
+            list[Command]
         """
         event = RequestMessageName.CLOSE_APP
         answer = await self.dialogue_manager.run_statemachine(event, TextPreprocessingResult({}), user)
@@ -258,7 +258,7 @@ class SMHandlerRespond(HandlerRespond):
         super(SMHandlerRespond, self).__init__(app_name=app_name, action_name=action_name)
         self.dialogue_manager = dialogue_manager
 
-    async def run(self, payload: Any, user: SMUser) -> List[Command]:
+    async def run(self, payload: Any, user: SMUser) -> list[Command]:
         """
         ## Запуск обработчика.
 
@@ -267,7 +267,7 @@ class SMHandlerRespond(HandlerRespond):
             user (SMUser): Объект NLPF User.
 
         Returns:
-            List[Command]
+            list[Command]
         """
         event = user.message_pd.messageName
         answer = await self.dialogue_manager.run_statemachine(event, TextPreprocessingResult({}), user)

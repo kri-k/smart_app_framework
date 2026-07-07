@@ -2,7 +2,7 @@
 # Базовая модель любого запроса в сервис.
 """
 
-from typing import Optional, Dict
+from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -28,5 +28,5 @@ class BaseMessage(BaseModel):
     """
     uuid: Optional[UUID] = Field(default=None)
     """Составной идентификатор пользователя."""
-    payload: Optional[Dict] = Field(default={})
+    payload: Optional[dict] = Field(default={})
     """Коллекция, в которой в зависимости от потребителя и messageName передается дополнительная информация."""

@@ -1,4 +1,4 @@
-from typing import Optional, Union, Match, Dict, List
+from typing import Optional, Union, Match
 import re
 
 MASK = "***"
@@ -45,9 +45,9 @@ def card_sub_func(x: Match[str]) -> str:
     return mask + digs + (last_char * is_last_not_digit)
 
 
-def masking(data: Union[Dict, List], masking_fields: Optional[Union[Dict, List]] = None,
+def masking(data: Union[dict, list], masking_fields: Optional[Union[dict, list]] = None,
             depth_level: int = 2, mask_available_depth: int = -1,
-            white_list: Optional[List[str]] = None) -> Union[Dict, List]:
+            white_list: Optional[list[str]] = None) -> Union[dict, list]:
     """
     :param data: коллекция для маскирования приватных данных
     :param masking_fields: поля для обязательной маскировки независимо от уровня
@@ -66,9 +66,9 @@ def masking(data: Union[Dict, List], masking_fields: Optional[Union[Dict, List]]
                     masking_on=False, card_masking_on=False, white_list=white_list)
 
 
-def _masking(data: Union[Dict, List], masking_fields: Union[Dict, List],
+def _masking(data: Union[dict, list], masking_fields: Union[dict, list],
              depth_level: int = 2, mask_available_depth: int = -1, masking_on: bool = False,
-             card_masking_on: bool = False, white_list: Optional[List[str]] = None) -> Union[Dict, List]:
+             card_masking_on: bool = False, white_list: Optional[list[str]] = None) -> Union[dict, list]:
 
     # тут в зависимости от листа или словаря создаем итератор
     if isinstance(data, dict):
@@ -125,7 +125,7 @@ def _masking(data: Union[Dict, List], masking_fields: Union[Dict, List],
     return masked_data
 
 
-def structure_mask(data: Union[Dict, List], depth: int, available_depth: int = -1,
+def structure_mask(data: Union[dict, list], depth: int, available_depth: int = -1,
                    counter: Optional[Counter] = None):
     """
     Функция маскирования для сложной структуры

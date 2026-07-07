@@ -44,7 +44,7 @@ USER = CustomUser
 ```
 
 """
-from typing import Optional, Union, List
+from typing import Optional
 from pydantic import BaseModel, Field
 
 from .debug_info import CallHistoryItem
@@ -62,7 +62,7 @@ class LocalContext(BaseModel):
     """Сообщение, с которого началась транзакция."""
     last_transaction_step_timestamp: Optional[float] = Field(default=None)
     """Timestamp последнего запроса в транзакции."""
-    call_history: Optional[List[Optional[CallHistoryItem]]] = Field(default_factory=list)
+    call_history: Optional[list[Optional[CallHistoryItem]]] = Field(default_factory=list)
     """Список вызовов (полезное поле для отладки транзакции)."""
     character_id: Optional[str] = Field(default=None)
     """Текущий выбранный ассистент."""

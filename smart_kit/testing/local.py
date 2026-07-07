@@ -3,7 +3,7 @@ import cmd
 import json
 import os
 import pprint
-from typing import Dict, Optional, Tuple, Any
+from typing Optional, Tuple, Any
 from functools import cached_property
 
 from core.descriptions.descriptions import Descriptions
@@ -140,7 +140,7 @@ class CLInterface(cmd.Cmd):
         self.environment.intent = self.available_scenarios[0]
         print("Текущий сценарий: ", self.environment.intent)
 
-    def process_message(self, raw_message: Dict, headers: tuple = ()) -> Tuple[Any, list]:
+    def process_message(self, raw_message: dict, headers: tuple = ()) -> Tuple[Any, list]:
         from smart_kit.configs import get_app_config
         masking_fields = self.settings["template_settings"].get("masking_fields")
         message = SmartAppFromMessage(raw_message, headers=headers, masking_fields=masking_fields,

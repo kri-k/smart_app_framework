@@ -2,7 +2,7 @@
 # Базовые модели для интеграций.
 """
 
-from typing import Optional, Dict
+from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -23,7 +23,7 @@ class IntegrationPayload(BaseModel):
     """Сообщение об ошибке (если есть)."""
     error: Optional[str] = Field(default=None)
     """Информация об ошибке (если есть)."""
-    data: Optional[Dict] = Field(default=None)
+    data: Optional[dict] = Field(default=None)
     """Данные, полученные в ответ от интеграции."""
 
 

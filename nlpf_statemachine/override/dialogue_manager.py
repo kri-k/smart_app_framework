@@ -1,7 +1,7 @@
 """
 # Переопределение NLPF DialogueManager.
 """
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Optional, Tuple, Union
 
 from pydantic import BaseModel
 
@@ -24,15 +24,15 @@ class SMDialogueManager(DialogueManager):
         self.state_machine_context_manager = scenario_descriptions[STATE_MACHINE_REPOSITORY_NAME]
 
     @staticmethod
-    def _to_dict(model: Union[BaseModel, Dict]) -> Dict:
+    def _to_dict(model: Union[BaseModel, dict]) -> dict:
         """
         # Перевод параметров в dict.
 
         Args:
-            model (Union[BaseModel, Dict]): Параметры в виде dict или pydantic модели.
+            model (Union[BaseModel, dict]): Параметры в виде dict или pydantic модели.
 
         Returns:
-            Dict: Параметры в виде словаря
+            dict: Параметры в виде словаря
         """
         if isinstance(model, dict):
             return model
@@ -40,7 +40,7 @@ class SMDialogueManager(DialogueManager):
             return model.model_dump(exclude_none=True, by_alias=True)
         return {}
 
-    def _process_response(self, response: Response) -> Tuple[Dict, Optional[str], Optional[dict]]:
+    def _process_response(self, response: Response) -> Tuple[dict, Optional[str], Optional[dict]]:
         """
         # Формирование параметров ответа pydantic объекта Response.
 
@@ -48,7 +48,7 @@ class SMDialogueManager(DialogueManager):
             response (Response): ответ от ContextManager.
 
         Returns:
-            Tuple[Dict, Optional[str], Optional[dict]]
+            Tuple[dict, Optional[str], Optional[dict]]
         """
         request_type = response.request_type if response.request_type else None
         request_data = self._to_dict(response.request_data)
@@ -57,7 +57,7 @@ class SMDialogueManager(DialogueManager):
 
     async def run_scenario(
             self, scen_id: str, text_preprocessing_result: TextPreprocessingResult, user: SMUser,
-    ) -> List[Command]:
+    ) -> list[Command]:
         """
         # Запуск сценария.
 
@@ -69,7 +69,7 @@ class SMDialogueManager(DialogueManager):
             user (SMUser): NLPF User;
 
         Returns:
-            List[Command]
+            list[Command]
         """
         answer = await self.run_statemachine(
             event=None, text_preprocessing_result=text_preprocessing_result, user=user,
@@ -82,7 +82,7 @@ class SMDialogueManager(DialogueManager):
 
     async def run_statemachine(
             self, event: str = None, text_preprocessing_result: TextPreprocessingResult = None, user: SMUser = None,
-    ) -> Optional[List[Command]]:
+    ) -> Optional[list[Command]]:
         """
         # Запуск стейт-машины (контекст-менеджера).
 
@@ -92,7 +92,7 @@ class SMDialogueManager(DialogueManager):
             user (SMUser): NLPF User;
 
         Returns:
-            Optional[List[Command]]
+            Optional[list[Command]]
         """
         context_manager = self.state_machine_context_manager.get(CONTEXT_MANAGER_ID)
         response = await context_manager.run(

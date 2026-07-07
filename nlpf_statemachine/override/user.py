@@ -1,7 +1,7 @@
 """# Переопределение объекта NLPF User."""
 import json
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Type
+from typing import Any, Optional, Type
 
 from pydantic import ValidationError
 
@@ -65,7 +65,7 @@ class SMUser(User):
             self.local_contexts = {}
 
     @property
-    def message_models(self) -> Dict[str, List[Type[BaseMessage]]]:
+    def message_models(self) -> dict[str, list[Type[BaseMessage]]]:
         """
         # Определение моделей запросов.
 
@@ -81,7 +81,7 @@ class SMUser(User):
 
 
         Returns:
-            Dict[str, List[Type[BaseMessage]]]
+            dict[str, list[Type[BaseMessage]]]
 
         """
         return {
@@ -119,7 +119,7 @@ class SMUser(User):
         return context_local_class
 
     @property
-    def raw(self) -> Dict[str, Any]:
+    def raw(self) -> dict[str, Any]:
         """
         # Словарь, который описывает User.
 
@@ -128,7 +128,7 @@ class SMUser(User):
         Добавлены общий контекст (context_pd) пользователя и локальные контексты транзакций (local_contexts).
 
         Returns:
-            Dict[str, Any]
+            dict[str, Any]
         """
         result = super(SMUser, self).raw
         result["context_pd"] = self.context_pd.model_dump(exclude={"local"}, exclude_none=True)
@@ -139,12 +139,12 @@ class SMUser(User):
         result["local_contexts"] = self.local_contexts
         return result
 
-    def build_local_context(self, dictionary: Dict[str, Any]) -> LocalContext:
+    def build_local_context(self, dictionary: dict[str, Any]) -> LocalContext:
         """
         # Построение pydantic-модели локального контекста из словаря.
 
         Args:
-            dictionary (Dict[str, Any]): Словарь, по которому строится локальный контекст;
+            dictionary (dict[str, Any]): Словарь, по которому строится локальный контекст;
 
         Returns:
             LocalContext: Построенный объект локального контекста.
@@ -164,14 +164,14 @@ class SMUser(User):
 
         return self.local_context_model()
 
-    def build_context(self, dictionary: Dict[str, Any], current_local_context: Dict[str, Any]) -> Context:
+    def build_context(self, dictionary: dict[str, Any], current_local_context: dict[str, Any]) -> Context:
         """
         # Построение pydantic-модели контекста из словаря.
 
         *Важно:* **У контекста не должно быть обязательных полей!!!**
         Args:
-            dictionary (Dict[str, Any]): Словарь, по которому строится контекст;
-            current_local_context (Dict[str, Any]): Локальный контекст для текущей транзакции;
+            dictionary (dict[str, Any]): Словарь, по которому строится контекст;
+            current_local_context (dict[str, Any]): Локальный контекст для текущей транзакции;
 
         Returns:
             Context: Построенный объект контекста.
@@ -187,12 +187,12 @@ class SMUser(User):
             behaviour_log(f"Context {self.context_model} build failed.", level="ERROR", exc_info=True)
         return self.context_model()
 
-    def build_message(self, dictionary: Dict[str, Any]) -> Optional[BaseMessage]:
+    def build_message(self, dictionary: dict[str, Any]) -> Optional[BaseMessage]:
         """
         # Построение pydantic-модели запроса из словаря.
 
         Args:
-            dictionary (Dict[str, Any]): Словарь, пришедший на вход;
+            dictionary (dict[str, Any]): Словарь, пришедший на вход;
 
         Returns:
             BaseMessage: запрос в виде pydantic-модели.

@@ -1,4 +1,4 @@
-from typing import List, Type
+from typing import Type
 
 
 class PostprocessMainLoop:
@@ -8,7 +8,7 @@ class PostprocessMainLoop:
 
 
 class PostprocessCompose(PostprocessMainLoop):
-    postprocessors: List[PostprocessMainLoop] = []
+    postprocessors: list[PostprocessMainLoop] = []
 
     async def postprocess(self, user, message, *args, **kwargs):
         for processor in self.postprocessors:

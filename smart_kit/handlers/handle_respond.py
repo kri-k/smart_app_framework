@@ -1,5 +1,5 @@
 from time import time
-from typing import List, Optional, Dict, Any
+from typing import Optional, Any
 
 from core.basic_models.actions.command import Command
 from core.logging.logger_utils import log
@@ -19,14 +19,14 @@ class HandlerRespond(HandlerBase):
         super().__init__(app_name)
         self._action_name = action_name
 
-    def get_action_name(self, payload: Dict[str, Any], user: User):
+    def get_action_name(self, payload: dict[str, Any], user: User):
         return self._action_name
 
-    def get_action_params(self, payload: Dict[str, Any], user: User):
+    def get_action_params(self, payload: dict[str, Any], user: User):
         callback_id = user.message.callback_id
         return user.behaviors.get_callback_action_params(callback_id)
 
-    async def run(self, payload: Dict[str, Any], user: User) -> List[Command]:
+    async def run(self, payload: dict[str, Any], user: User) -> list[Command]:
         commands = await super().run(payload, user)
         callback_id = user.message.callback_id
         action_params = self.get_action_params(payload, user)

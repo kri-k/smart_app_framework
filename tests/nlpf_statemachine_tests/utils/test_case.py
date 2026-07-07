@@ -3,7 +3,7 @@
 """
 import json
 from datetime import datetime
-from typing import Dict, List, Optional, Union
+from typing Optional, Union
 from unittest import TestCase, IsolatedAsyncioTestCase
 
 from pydantic import BaseModel
@@ -90,7 +90,7 @@ class SMTestCase(SMTestCaseBase):
 
     def init(
             self,
-            context: Optional[Union[Dict, Context]] = None,
+            context: Optional[Union[dict, Context]] = None,
             transaction_started: bool = False,
             base_event: Optional[str] = None,
             transaction_duration: float = 2,
@@ -140,7 +140,7 @@ class SMTestCase(SMTestCaseBase):
         if not self.context.last_response_message_name:
             self.context.last_response_message_name = last_response_message_name
 
-    def _set_request_data_to_message_headers(self, request_data: Dict) -> None:
+    def _set_request_data_to_message_headers(self, request_data: dict) -> None:
         if not request_data:
             return
         if isinstance(request_data, BaseModel):
@@ -151,9 +151,9 @@ class SMTestCase(SMTestCaseBase):
 
     async def run_context_manager(
             self,
-            message: Union[Dict, BaseModel],
+            message: Union[dict, BaseModel],
             event: Optional[str] = None,
-            text_preprocessing_result: Optional[List] = None,
+            text_preprocessing_result: Optional[list] = None,
     ) -> None:
         """
         ## Запуск ContextManager.
@@ -205,10 +205,10 @@ class SMTestCase(SMTestCaseBase):
 
     async def run_context_manager_init(
             self,
-            message: Union[Dict, BaseModel],
+            message: Union[dict, BaseModel],
             event: Optional[str] = None,
-            text_preprocessing_result: Optional[List] = None,
-            context: Optional[Union[Dict, Context]] = None,
+            text_preprocessing_result: Optional[list] = None,
+            context: Optional[Union[dict, Context]] = None,
             transaction_started: bool = False,
             base_event: Optional[str] = None,
             transaction_duration: float = 2,
@@ -385,7 +385,7 @@ class SMAsyncioTestCase(SMAsyncioTestCaseBase):
 
     def init(
             self,
-            context: Optional[Union[Dict, Context]] = None,
+            context: Optional[Union[dict, Context]] = None,
             transaction_started: bool = False,
             base_event: Optional[str] = None,
             transaction_duration: float = 2,
@@ -435,7 +435,7 @@ class SMAsyncioTestCase(SMAsyncioTestCaseBase):
         if not self.context.last_response_message_name:
             self.context.last_response_message_name = last_response_message_name
 
-    def _set_request_data_to_message_headers(self, request_data: Dict) -> None:
+    def _set_request_data_to_message_headers(self, request_data: dict) -> None:
         if not request_data:
             return
         if isinstance(request_data, BaseModel):
@@ -446,9 +446,9 @@ class SMAsyncioTestCase(SMAsyncioTestCaseBase):
 
     async def run_context_manager(
             self,
-            message: Union[Dict, BaseModel],
+            message: Union[dict, BaseModel],
             event: Optional[str] = None,
-            text_preprocessing_result: Optional[List] = None,
+            text_preprocessing_result: Optional[list] = None,
     ) -> None:
         """
         ## Запуск ContextManager.
@@ -500,10 +500,10 @@ class SMAsyncioTestCase(SMAsyncioTestCaseBase):
 
     async def run_context_manager_init(
             self,
-            message: Union[Dict, BaseModel],
+            message: Union[dict, BaseModel],
             event: Optional[str] = None,
-            text_preprocessing_result: Optional[List] = None,
-            context: Optional[Union[Dict, Context]] = None,
+            text_preprocessing_result: Optional[list] = None,
+            context: Optional[Union[dict, Context]] = None,
             transaction_started: bool = False,
             base_event: Optional[str] = None,
             transaction_duration: float = 2,

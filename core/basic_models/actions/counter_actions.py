@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import Union, Dict, Any, Optional, List
+from typing import Union, Any, Optional
 
 from core.basic_models.actions.basic_actions import Action
 from core.basic_models.actions.command import Command
@@ -12,7 +12,7 @@ class CounterAction(Action):
     key: str
     value: int
 
-    def __init__(self, items: Dict[str, Any], id: Optional[str] = None):
+    def __init__(self, items: dict[str, Any], id: Optional[str] = None):
         super().__init__(items, id)
         items = items or {}
         self.key = items["key"]
@@ -22,7 +22,7 @@ class CounterAction(Action):
 
 class CounterIncrementAction(CounterAction):
     async def run(self, user: BaseUser, text_preprocessing_result: BaseTextPreprocessingResult,
-                  params: Optional[Dict[str, Union[str, float, int]]] = None) -> List[Command]:
+                  params: Optional[dict[str, Union[str, float, int]]] = None) -> list[Command]:
         commands = []
         user.counters[self.key].inc(self.value, self.lifetime)
         return commands
@@ -30,7 +30,7 @@ class CounterIncrementAction(CounterAction):
 
 class CounterDecrementAction(CounterAction):
     async def run(self, user: BaseUser, text_preprocessing_result: BaseTextPreprocessingResult,
-                  params: Optional[Dict[str, Union[str, float, int]]] = None) -> List[Command]:
+                  params: Optional[dict[str, Union[str, float, int]]] = None) -> list[Command]:
         commands = []
         user.counters[self.key].dec(-self.value, self.lifetime)
         return commands
@@ -38,7 +38,7 @@ class CounterDecrementAction(CounterAction):
 
 class CounterClearAction(CounterAction):
     async def run(self, user: BaseUser, text_preprocessing_result: BaseTextPreprocessingResult,
-                  params: Optional[Dict[str, Union[str, float, int]]] = None) -> List[Command]:
+                  params: Optional[dict[str, Union[str, float, int]]] = None) -> list[Command]:
         commands = []
         user.counters.clear(self.key)
         return commands
@@ -51,21 +51,21 @@ class CounterSetAction(CounterAction):
     reset_time: bool
     time_shift: Optional[int]
 
-    def __init__(self, items: Dict[str, Any], id: Optional[str] = None):
+    def __init__(self, items: dict[str, Any], id: Optional[str] = None):
         super().__init__(items, id)
         self.value = items.get("value")
         self.reset_time = items.get("reset_time", False)
         self.time_shift = items.get("time_shift", 0)
 
     async def run(self, user: BaseUser, text_preprocessing_result: BaseTextPreprocessingResult,
-                  params: Optional[Dict[str, Union[str, float, int]]] = None) -> List[Command]:
+                  params: Optional[dict[str, Union[str, float, int]]] = None) -> list[Command]:
         commands = []
         user.counters[self.key].set(self.value, self.reset_time, self.time_shift)
         return commands
 
 
 class CounterCopyAction(Action):
-    def __init__(self, items: Dict[str, Any], id: Optional[str] = None):
+    def __init__(self, items: dict[str, Any], id: Optional[str] = None):
         super().__init__(items, id)
         self.src = items["source"]
         self.dst = items["destination"]
@@ -73,7 +73,7 @@ class CounterCopyAction(Action):
         self.time_shift = items.get("time_shift", 0)
 
     async def run(self, user: BaseUser, text_preprocessing_result: BaseTextPreprocessingResult,
-                  params: Optional[Dict[str, Union[str, float, int]]] = None) -> List[Command]:
+                  params: Optional[dict[str, Union[str, float, int]]] = None) -> list[Command]:
         commands = []
         value = user.counters[self.src].value
         user.counters[self.dst].set(value, self.reset_time, self.time_shift)

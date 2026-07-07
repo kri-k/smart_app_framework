@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import Union, Any, Dict, List, Optional
+from typing import Union, Any, Optional
 
 from core.basic_models.operators.comparators import MoreComparator, LessComparator, MoreOrEqualComparator, \
     LessOrEqualComparator, EqualComparator, NotEqualComparator, InComparator, Comparator
@@ -13,7 +13,7 @@ operator_factory = build_factory(operators)
 
 class Operator:
 
-    def __init__(self, items: Optional[Dict[str, Any]]) -> None:
+    def __init__(self, items: Optional[dict[str, Any]]) -> None:
         pass
 
     def compare(self, value: Any) -> bool:
@@ -21,11 +21,11 @@ class Operator:
 
 
 class CompositeOperator(Operator):
-    operators: List[Operator]
+    operators: list[Operator]
 
-    def __init__(self, items: Optional[Dict[str, Any]]) -> None:
+    def __init__(self, items: Optional[dict[str, Any]]) -> None:
         super(CompositeOperator, self).__init__(items)
-        self._operators: Dict[str, Any] = items["operators"]
+        self._operators: dict[str, Any] = items["operators"]
         self.operators = self.build_operators()
 
     @list_factory(Operator)
@@ -42,10 +42,10 @@ class AnyOperator(CompositeOperator):
 
 
 class AmountOperator(Operator):
-    amount: Union[int, str, List]
+    amount: Union[int, str, list]
     comparator: Comparator
 
-    def __init__(self, items: Optional[Dict[str, Any]]) -> None:
+    def __init__(self, items: Optional[dict[str, Any]]) -> None:
         super(AmountOperator, self).__init__(items)
         self.amount = items["amount"]
         self.comparator: Optional[Comparator] = None
@@ -55,64 +55,64 @@ class AmountOperator(Operator):
 
 
 class InOperator(AmountOperator):
-    amount: Union[int, str, List]
+    amount: Union[int, str, list]
     comparator: InComparator
 
-    def __init__(self, items: Optional[Dict[str, Any]]) -> None:
+    def __init__(self, items: Optional[dict[str, Any]]) -> None:
         super(InOperator, self).__init__(items)
         self.comparator = InComparator({})
 
 
 class MoreOperator(AmountOperator):
-    amount: Union[int, str, List]
+    amount: Union[int, str, list]
     comparator: MoreComparator
 
-    def __init__(self, items: Optional[Dict[str, Any]]) -> None:
+    def __init__(self, items: Optional[dict[str, Any]]) -> None:
         super(MoreOperator, self).__init__(items)
         self.comparator = MoreComparator({})
 
 
 class LessOperator(AmountOperator):
-    amount: Union[int, str, List]
+    amount: Union[int, str, list]
     comparator: LessComparator
 
-    def __init__(self, items: Optional[Dict[str, Any]]) -> None:
+    def __init__(self, items: Optional[dict[str, Any]]) -> None:
         super(LessOperator, self).__init__(items)
         self.comparator = LessComparator({})
 
 
 class MoreOrEqualOperator(AmountOperator):
-    amount: Union[int, str, List]
+    amount: Union[int, str, list]
     comparator: MoreOrEqualComparator
 
-    def __init__(self, items: Optional[Dict[str, Any]]) -> None:
+    def __init__(self, items: Optional[dict[str, Any]]) -> None:
         super(MoreOrEqualOperator, self).__init__(items)
         self.comparator = MoreOrEqualComparator({})
 
 
 class LessOrEqualOperator(AmountOperator):
-    amount: Union[int, str, List]
+    amount: Union[int, str, list]
     comparator: LessOrEqualComparator
 
-    def __init__(self, items: Optional[Dict[str, Any]]) -> None:
+    def __init__(self, items: Optional[dict[str, Any]]) -> None:
         super(LessOrEqualOperator, self).__init__(items)
         self.comparator = LessOrEqualComparator({})
 
 
 class EqualOperator(AmountOperator):
-    amount: Union[int, str, List]
+    amount: Union[int, str, list]
     comparator: EqualComparator
 
-    def __init__(self, items: Optional[Dict[str, Any]]) -> None:
+    def __init__(self, items: Optional[dict[str, Any]]) -> None:
         super(EqualOperator, self).__init__(items)
         self.comparator = EqualComparator({})
 
 
 class NotEqualOperator(AmountOperator):
-    amount: Union[int, str, List]
+    amount: Union[int, str, list]
     comparator: NotEqualComparator
 
-    def __init__(self, items: Optional[Dict[str, Any]]) -> None:
+    def __init__(self, items: Optional[dict[str, Any]]) -> None:
         super(NotEqualOperator, self).__init__(items)
         self.comparator = NotEqualComparator({})
 

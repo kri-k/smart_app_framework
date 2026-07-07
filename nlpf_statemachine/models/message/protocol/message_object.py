@@ -1,7 +1,7 @@
 """
 # Результат предобработки.
 """
-from typing import List, Dict, Optional
+from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -26,7 +26,7 @@ class Message(BaseModel):
 
     Пример: *хотеть заказать пицца на TIME_TIME_TOKEN за MONEY_TOKEN .*
     """
-    entities: Optional[Dict] = Field(default=None)
+    entities: Optional[dict] = Field(default=None)
     """
     Извлеченные из запроса сущности.
 
@@ -38,7 +38,7 @@ class Message(BaseModel):
 
     Пример: *"Хочу заказать пиццу на 9 вечера за 500 ₽".*
     """
-    tokenized_elements_list: Optional[List[Dict]] = Field(default=None)
+    tokenized_elements_list: Optional[list[dict]] = Field(default=None)
     """
     Список токенов в запросе пользователя.
     Содержит грамматический и синтаксический разбор,

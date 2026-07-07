@@ -17,11 +17,11 @@ from core.mq.kafka.base_kafka_publisher import BaseKafkaPublisher
 
 if TYPE_CHECKING:
     from asyncio import AbstractEventLoop
-    from typing import Optional, Tuple, Any, Dict, Sequence
+    from typing import Optional, Tuple, Any, Sequence
 
 
 class KafkaPublisher(BaseKafkaPublisher):
-    def __init__(self, config: Dict[str, Any], loop: AbstractEventLoop):
+    def __init__(self, config: dict[str, Any], loop: AbstractEventLoop):
         self._config = config["publisher"]
         conf = self._config["conf"]
         self._update_old_config(conf)
@@ -91,13 +91,13 @@ class KafkaPublisher(BaseKafkaPublisher):
     async def close(self) -> None:
         await self._producer.stop()
 
-    def _setup_ssl(self, conf: Dict[str, Any], ssl_config: Optional[Dict[str, Any]] = None) -> None:
+    def _setup_ssl(self, conf: dict[str, Any], ssl_config: Optional[dict[str, Any]] = None) -> None:
         if ssl_config:
             context = create_ssl_context(**ssl_config)
             conf["security_protocol"] = "SSL"
             conf["ssl_context"] = context
 
-    def _update_old_config(self, conf: Dict[str, Any]) -> None:
+    def _update_old_config(self, conf: dict[str, Any]) -> None:
         if "ssl.ca.location" in conf:
             context = create_ssl_context(
                 cafile=conf["ssl.ca.location"],

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 from unittest import TestCase
 from unittest.mock import MagicMock
 from uuid import uuid4
@@ -173,7 +173,7 @@ class TestUtils(TestCase):
     def message_to_skill_mock(text: str = "Привет",
                               intent: str = "HELLO",
                               screen: str = None,
-                              tokenized_elements_list: Optional[List] = None,
+                              tokenized_elements_list: Optional[list] = None,
                               character=None):
         return MessageToSkill(
             payload=MessageToSkillPayload(

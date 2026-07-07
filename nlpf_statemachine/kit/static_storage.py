@@ -5,7 +5,7 @@
 import json
 from copy import deepcopy
 from random import choice
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import yaml
 
@@ -52,12 +52,12 @@ class StaticStorageManager:
             self.storage = StaticStorage()
 
     @staticmethod
-    def _load_yaml(filename: str) -> Dict[str, Any]:
+    def _load_yaml(filename: str) -> dict[str, Any]:
         with open(filename, "r") as file:
             return yaml.safe_load(file)
 
     @staticmethod
-    def _load_json(filename: str) -> Dict[str, Any]:
+    def _load_json(filename: str) -> dict[str, Any]:
         with open(filename, "r") as file:
             return json.load(file)
 

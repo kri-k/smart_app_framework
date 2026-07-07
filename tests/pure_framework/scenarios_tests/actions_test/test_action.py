@@ -1,5 +1,5 @@
 import unittest
-from typing import Dict, Any, Union, Optional
+from typing Any, Union, Optional
 from unittest.mock import Mock, ANY
 
 from core.basic_models.actions.basic_actions import Action, action_factory, actions
@@ -417,7 +417,7 @@ class ChoiceScenarioActionTest(unittest.IsolatedAsyncioTestCase):
         registered_factories[Action] = Action
 
     @staticmethod
-    async def mock_and_perform_action(test_items: Dict[str, Any], expected_result: Optional[str] = None,
+    async def mock_and_perform_action(test_items: dict[str, Any], expected_result: Optional[str] = None,
                                       expected_scen: Optional[str] = None) -> Union[str, None]:
         action = ChoiceScenarioAction(test_items)
         user = PicklableMock()

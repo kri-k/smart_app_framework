@@ -2,7 +2,7 @@
 Информация о смартапе.
 """
 
-from typing import Optional, Dict
+from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -26,7 +26,7 @@ class AppInfo(BaseModel):
     """Более читаемый аналог поля projectId.Не актуален для внешних приложений."""
     frontendStateId: Optional[str] = Field(default=None)
     """Объединённое значение полей projectId, applicationId и appversionId."""
-    apkInfo: Optional[Dict] = Field(default=None)
+    apkInfo: Optional[dict] = Field(default=None)
     """Информация о приложении"""
     ageLimit: Optional[int] = Field(default=None)
     """Информация о возрастном ограничении"""

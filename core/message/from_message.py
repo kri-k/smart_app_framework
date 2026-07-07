@@ -1,6 +1,6 @@
 # coding=utf-8
 from functools import cached_property
-from typing import Iterable, Dict, Optional, Set, Any, List, Union, Tuple, Sequence
+from typing import Iterable, Optional, Any, Union, Tuple, Sequence
 import json
 import uuid
 
@@ -58,9 +58,9 @@ class SmartAppFromMessage:
     payload: dict
     uuid: dict
 
-    def __init__(self, value: Dict[str, Any], topic_key: Optional[str] = None, creation_time: Optional[int] = None,
+    def __init__(self, value: dict[str, Any], topic_key: Optional[str] = None, creation_time: Optional[int] = None,
                  kafka_key: Optional[str] = None, headers: Optional[Sequence[Tuple[str, bytes]]] = None,
-                 masking_fields: Optional[Union[Dict[str, int], List[str]]] = None, headers_required: bool = True,
+                 masking_fields: Optional[Union[dict[str, int], list[str]]] = None, headers_required: bool = True,
                  validators: Iterable[MessageValidator] = (), callback_id: Optional[str] = None):
         self.logging_uuid = str(uuid.uuid4())
         self._value = value
@@ -184,11 +184,11 @@ class SmartAppFromMessage:
         return self.uuid.get(field.SUB)
 
     @property
-    def uuid(self) -> Dict[str, str]:
+    def uuid(self) -> dict[str, str]:
         return self.as_dict[self.UUID]
 
     @property
-    def payload(self) -> Dict[str, Any]:
+    def payload(self) -> dict[str, Any]:
         return self.as_dict[self.PAYLOAD]
 
     @payload.setter
@@ -215,11 +215,11 @@ class SmartAppFromMessage:
         return AppInfo(self.payload.get(field.APP_INFO) or {})
 
     @property
-    def smart_bio(self) -> Dict[str, Any]:
+    def smart_bio(self) -> dict[str, Any]:
         return self.payload.get(field.SMART_BIO) or {}
 
     @property
-    def annotations(self) -> Dict[str, Dict[str, float]]:
+    def annotations(self) -> dict[str, dict[str, float]]:
         annotations = self.payload.get(field.ANNOTATIONS) or {}
         for annotation in annotations:
             classes = annotations[annotation][field.CLASSES]
@@ -273,7 +273,7 @@ class SmartAppFromMessage:
         return self.as_dict[self.MESSAGE_ID]
 
     @property
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> dict[str, Any]:
         return self._value
 
     @property

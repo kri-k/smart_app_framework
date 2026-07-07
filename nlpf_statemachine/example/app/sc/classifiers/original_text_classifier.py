@@ -2,8 +2,6 @@
 # Пример простого классификатора (анализ запроса).
 """
 
-from typing import Dict, Optional
-
 from core.text_preprocessing.constants import NUM_TOKEN
 from nlpf_statemachine.example.const import STATIC_PARAPHRASE
 from nlpf_statemachine.kit import Classifier
@@ -35,7 +33,7 @@ class OriginalTextClassifier(Classifier):
     Данный классификатор проверяет наличие слова в запросе.
     """
 
-    def run(self, message: MessageToSkill, context: Context, form: Dict) -> Optional[str]:
+    def run(self, message: MessageToSkill, context: Context, form: dict) -> str | None:
         """
         ## Запуск классификации.
 
@@ -44,7 +42,7 @@ class OriginalTextClassifier(Classifier):
         Args:
             message (nlpf_statemachine.models.message.protocol.assistant_message.BaseMessage): Тело запроса.
             context (nlpf_statemachine.models.context.Context): Контекст.
-            form (Dict[str, Any]): Форма
+            form (dict[str, Any]): Форма
 
         Returns:
             str: результат классификации (event).

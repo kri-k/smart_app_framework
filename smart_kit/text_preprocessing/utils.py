@@ -2,7 +2,6 @@ import re
 import json
 import time
 import string
-from typing import Dict
 
 from core.text_preprocessing.constants import ANIMACY_TOKEN
 from core.text_preprocessing.grammem.grammem_constants import TEXT, LEMMA, TOKEN_TYPE, LIST_OF_TOKEN_TYPES_DATA, \
@@ -31,7 +30,7 @@ def reverse_json_dict(data):
     return result
 
 
-def replace_by_dict(text: str, replace_rules: Dict[str, str]) -> str:
+def replace_by_dict(text: str, replace_rules: dict[str, str]) -> str:
     for value, replacement in replace_rules.items():
         text = text.replace(value, replacement)
     return text

@@ -3,7 +3,7 @@ import pickle
 import sys
 from abc import ABC, abstractmethod
 from functools import cached_property
-from typing import Any, Dict, Optional, Union, List
+from typing import Any, Optional, Union
 
 import numpy as np
 from timeout_decorator import timeout_decorator
@@ -25,7 +25,7 @@ class Classifier(ABC):
 
     CLASSIFIER_TYPE = None
 
-    def __init__(self, settings: Dict[str, Any], id: Optional[str] = None) -> None:
+    def __init__(self, settings: dict[str, Any], id: Optional[str] = None) -> None:
         self.id = id
         self.settings = settings if settings else {}
         self.version = settings.get("version", -1)
@@ -34,7 +34,7 @@ class Classifier(ABC):
         self.class_other = cls_const.OTHER_KEY
         self._check_classifier_type(settings["type"])
 
-    def _answer_template(self, intent: str, score: float, is_other: bool) -> Dict[str, Union[str, float, bool]]:
+    def _answer_template(self, intent: str, score: float, is_other: bool) -> dict[str, Union[str, float, bool]]:
         # Любой классификатор должен возвращать отсортированный список наиболее вероятных вариантов из заданного
         # множества, прошедших определенный порог уверенности. Каждый вариант из списка должен соответвовать общему
         # шаблону: answer=классу, score=величине уверенности в ответе, other=булево значение (принадлежность к other).
@@ -48,9 +48,9 @@ class Classifier(ABC):
     def find_best_answer(
             self,
             text_preprocessing_result: BaseTextPreprocessingResult,
-            mask: Optional[Dict[str, bool]] = None,
-            scenario_classifiers: Optional[Dict[str, Any]] = None
-    ) -> List[Dict[str, Union[str, float, bool]]]:
+            mask: Optional[dict[str, bool]] = None,
+            scenario_classifiers: Optional[dict[str, Any]] = None
+    ) -> list[dict[str, Union[str, float, bool]]]:
         # Формируется отсортированный список наиболее вероятных вариантов
         raise NotImplementedError
 
@@ -58,8 +58,8 @@ class Classifier(ABC):
     def initial_launch(
             self,
             text_preprocessing_result: BaseTextPreprocessingResult,
-            scenario_classifiers: Optional[Dict[str, Any]] = None
-    ) -> Union[List[Dict[str, Union[str, float, bool]]], None]:
+            scenario_classifiers: Optional[dict[str, Any]] = None
+    ) -> Union[list[dict[str, Union[str, float, bool]]], None]:
         # Первоначальный запуск модели классификатора
         raise NotImplementedError
 
@@ -72,27 +72,27 @@ class SkipClassifier(Classifier):
 
     CLASSIFIER_TYPE = "skip"
 
-    def __init__(self, settings: Dict[str, Any], id: Optional[str] = None) -> None:
+    def __init__(self, settings: dict[str, Any], id: Optional[str] = None) -> None:
         super(SkipClassifier, self).__init__(settings, id)
         self.intents = self.settings["intents"]
 
     def find_best_answer(
             self,
             text_preprocessing_result: BaseTextPreprocessingResult,
-            mask: Optional[Dict[str, bool]] = None,
-            scenario_classifiers: Optional[Dict[str, Any]] = None
-    ) -> List[Dict[str, Union[str, float, bool]]]:
+            mask: Optional[dict[str, bool]] = None,
+            scenario_classifiers: Optional[dict[str, Any]] = None
+    ) -> list[dict[str, Union[str, float, bool]]]:
         return [self._answer_template(intent, 0, False) for intent in self.intents]
 
     def initial_launch(
             self,
             text_preprocessing_result: BaseTextPreprocessingResult,
-            scenario_classifiers: Optional[Dict[str, Any]] = None
-    ) -> Union[List[Dict[str, Union[str, float, bool]]], None]:
+            scenario_classifiers: Optional[dict[str, Any]] = None
+    ) -> Union[list[dict[str, Union[str, float, bool]]], None]:
         pass
 
     @staticmethod
-    def get_nothing() -> Dict[str, Any]:
+    def get_nothing() -> dict[str, Any]:
         return {"type": "skip", "intents": []}
 
 
@@ -105,7 +105,7 @@ class ExternalClassifier(Classifier):
     BLOCKING_TIMEOUT = cls_const.EXTERNAL_CLASSIFIER_BLOCKING_TIMEOUT
     CLASSIFIER_TYPE = "external"
 
-    def __init__(self, settings: Dict[str, Any], id: Optional[str] = None) -> None:
+    def __init__(self, settings: dict[str, Any], id: Optional[str] = None) -> None:
         super(ExternalClassifier, self).__init__(settings, id)
         self._classifier_key = settings["classifier"]
         self._timeout_wrap = timeout_decorator.timeout(self.settings.get("timeout") or self.BLOCKING_TIMEOUT)
@@ -114,9 +114,9 @@ class ExternalClassifier(Classifier):
     def find_best_answer(
             self,
             text_preprocessing_result: BaseTextPreprocessingResult,
-            mask: Optional[Dict[str, bool]] = None,
-            scenario_classifiers: Optional[Dict[str, Any]] = None
-    ) -> List[Dict[str, Union[str, float, bool]]]:
+            mask: Optional[dict[str, bool]] = None,
+            scenario_classifiers: Optional[dict[str, Any]] = None
+    ) -> list[dict[str, Union[str, float, bool]]]:
         classifier = scenario_classifiers[self._classifier_key]
         return self._timeout_wrap(classifier.find_best_answer)(text_preprocessing_result, mask, scenario_classifiers)
 
@@ -127,7 +127,7 @@ class ExternalClassifier(Classifier):
     def initial_launch(
             self,
             text_preprocessing_result: BaseTextPreprocessingResult,
-            scenario_classifiers: Optional[Dict[str, Any]] = None
+            scenario_classifiers: Optional[dict[str, Any]] = None
     ):
         classifier = scenario_classifiers[self._classifier_key]
         return classifier.initial_launch(text_preprocessing_result, scenario_classifiers)
@@ -136,7 +136,7 @@ class ExternalClassifier(Classifier):
 class ExtendedClassifier(Classifier):
     """Класс не является самостоятельным типом классификатора. Расширяет функционал базового класса."""
 
-    def __init__(self, settings: Dict[str, Any], id: Optional[str] = None) -> None:
+    def __init__(self, settings: dict[str, Any], id: Optional[str] = None) -> None:
         super(ExtendedClassifier, self).__init__(settings, id)
         self.intents = self.settings["intents"]
         self._path = self.settings["path"]
@@ -154,9 +154,9 @@ class ExtendedClassifier(Classifier):
     def find_best_answer(
             self,
             text_preprocessing_result: BaseTextPreprocessingResult,
-            mask: Optional[Dict[str, bool]] = None,
-            scenario_classifiers: Optional[Dict[str, Any]] = None
-    ) -> List[Dict[str, Union[str, float, bool]]]:
+            mask: Optional[dict[str, bool]] = None,
+            scenario_classifiers: Optional[dict[str, Any]] = None
+    ) -> list[dict[str, Union[str, float, bool]]]:
         vector = (
             vectorizers[self._vectorizer].vectorize(text_preprocessing_result)
             if self._vectorizer
@@ -191,14 +191,14 @@ class ExtendedClassifier(Classifier):
             self,
             text_preprocessing_result: BaseTextPreprocessingResult,
             vector: Optional[np.ndarray] = np.array([])
-    ) -> List[Any]:
+    ) -> list[Any]:
         raise NotImplementedError
 
     def initial_launch(
             self,
             text_preprocessing_result: BaseTextPreprocessingResult,
-            scenario_classifiers: Optional[Dict[str, Any]] = None
-    ) -> Union[List[Dict[str, Union[str, float, bool]]], None]:
+            scenario_classifiers: Optional[dict[str, Any]] = None
+    ) -> Union[list[dict[str, Union[str, float, bool]]], None]:
         return self.find_best_answer(text_preprocessing_result, None, classifiers)
 
 
@@ -209,7 +209,7 @@ class SciKitClassifier(ExtendedClassifier):
 
     CLASSIFIER_TYPE = "scikit"
 
-    def __init__(self, settings: Dict[str, Any], id: Optional[str] = None) -> None:
+    def __init__(self, settings: dict[str, Any], id: Optional[str] = None) -> None:
         super(SciKitClassifier, self).__init__(settings, id)
 
     @staticmethod
@@ -220,7 +220,7 @@ class SciKitClassifier(ExtendedClassifier):
             self,
             text_preprocessing_result: BaseTextPreprocessingResult,
             vector: Optional[np.ndarray] = np.array([])
-    ) -> List[Any]:
+    ) -> list[Any]:
         if vector.size != 0:
             prediction_result = self.classifier.predict_proba(
                 self.prepared(text_preprocessing_result), vector)[0].tolist()

@@ -29,7 +29,7 @@ class PreprocessingScenariosMessagesTest(unittest.TestCase):
         text_preprocessing_result = PicklableMock()
         text_preprocessing_result.raw = {"test": 123}
         preprocessing_messages.add(text_preprocessing_result)
-        self.assertListEqual([item for item in preprocessing_messages.processed_items], [{"test": 123}, {"test": 567}])
+        self.assertlistEqual([item for item in preprocessing_messages.processed_items], [{"test": 123}, {"test": 567}])
 
     def test_add_3(self):
         user = PicklableMock()
@@ -41,7 +41,7 @@ class PreprocessingScenariosMessagesTest(unittest.TestCase):
         text_preprocessing_result = PicklableMock()
         text_preprocessing_result.raw = {"test": 123}
         preprocessing_messages.add(text_preprocessing_result)
-        self.assertListEqual([item for item in preprocessing_messages.processed_items], [{"test": 123}])
+        self.assertlistEqual([item for item in preprocessing_messages.processed_items], [{"test": 123}])
 
     def test_clear(self):
         user = PicklableMock()
@@ -51,4 +51,4 @@ class PreprocessingScenariosMessagesTest(unittest.TestCase):
         description.lifetime = 10
         preprocessing_messages = PreprocessingScenariosMessages(items, description, user)
         preprocessing_messages.clear()
-        self.assertListEqual([item for item in preprocessing_messages.processed_items], [])
+        self.assertlistEqual([item for item in preprocessing_messages.processed_items], [])

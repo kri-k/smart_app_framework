@@ -4,7 +4,7 @@
 Данный объект можно использовать при написании тестов для проверки цепочки вызовов. Он возвращается в поле
 `nlpf_statemachine.models.response.Response.debug_info`.
 """
-from typing import List, Optional
+from typing import Optional
 from pydantic import BaseModel, Field
 
 
@@ -24,7 +24,7 @@ class DebugInfo(BaseModel):
 
     base_event: Optional[str] = Field(default=None)
     """Базовое событие текущей транзакции."""
-    call_history: Optional[List[Optional[CallHistoryItem]]] = Field(default_factory=list)
+    call_history: Optional[list[Optional[CallHistoryItem]]] = Field(default_factory=list)
     """Список вызовов."""
     transaction_finished: bool = Field(default=True)
     """Флаг на окончание транзакции."""

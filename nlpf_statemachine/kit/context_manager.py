@@ -7,7 +7,7 @@
 """
 
 from datetime import datetime
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any, Callable, Optional, Tuple
 
 from core.logging.logger_utils import behaviour_log
 from core.text_preprocessing.preprocessing_result import TextPreprocessingResult
@@ -41,13 +41,13 @@ class ScenarioContainer:
     # Контейнер всех сценариев приложения (глобальный и экраны).
     """
 
-    screens: Dict[str, Screen]
+    screens: dict[str, Screen]
     """Множество экранов."""
 
     global_scenario: Scenario
     """Глобальный сценарий."""
 
-    isolated_scenarios: Dict[str, Tuple[Callable, Scenario]]
+    isolated_scenarios: dict[str, Tuple[Callable, Scenario]]
     """Независимые условные сценарии для запросов с особым flow обработки."""
 
     def __init__(self) -> None:
@@ -314,7 +314,7 @@ class ContextManager(ScenarioContainer):
         return scenario
 
     def _classify_intent(
-            self, screen: Screen, message: MessageToSkill, context: Context, form: Dict,
+            self, screen: Screen, message: MessageToSkill, context: Context, form: dict,
             text_preprocessing_result: TextPreprocessingResult, user: SMUser,
     ) -> Optional[str]:
         """
@@ -324,7 +324,7 @@ class ContextManager(ScenarioContainer):
             screen (Screen): Экран
             message (MessageToSkill): Тело запроса
             context (Context): Контекст
-            form (Dict): Форма
+            form (dict): Форма
             text_preprocessing_result (TextPreprocessingResult): Предобработанные данные голосового запроса
             user (SMUser): Пользователь
 
@@ -383,7 +383,7 @@ class ContextManager(ScenarioContainer):
     def _fill_form(
             self, screen: Screen, message: MessageToSkill, context: Context,
             text_preprocessing_result: TextPreprocessingResult, user: SMUser,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         ## Заполнение формы.
 
@@ -395,7 +395,7 @@ class ContextManager(ScenarioContainer):
             user (SMUser): Пользователь
 
         Returns:
-            Dict: Форма
+            dict: Форма
         """
         form = self.global_scenario.fill_form(
             message=message, context=context, text_preprocessing_result=text_preprocessing_result, user=user,
@@ -409,7 +409,7 @@ class ContextManager(ScenarioContainer):
         return form
 
     def _define_event(
-            self, event: Optional[str], screen: Screen, message: BaseMessage, context: Context, form: Dict,
+            self, event: Optional[str], screen: Screen, message: BaseMessage, context: Context, form: dict,
             text_preprocessing_result: TextPreprocessingResult, user: SMUser,
     ) -> Optional[str]:
         """
@@ -419,7 +419,7 @@ class ContextManager(ScenarioContainer):
             screen (Screen): Экран
             message (MessageToSkill): Тело запроса
             context (Context): Контекст
-            form (Dict): Форма
+            form (dict): Форма
             text_preprocessing_result (TextPreprocessingResult): Предобработанные данные голосового запроса
             user (SMUser): Пользователь
 
@@ -561,7 +561,7 @@ class ContextManager(ScenarioContainer):
 
     # ==== RUN action ====
     async def _run_event(
-            self, event: str, screen: Screen, message: BaseMessage, context: Context, form: Dict,
+            self, event: str, screen: Screen, message: BaseMessage, context: Context, form: dict,
     ) -> Optional[Response]:
         """
         ## Запуск обработчика любого события.
@@ -578,7 +578,7 @@ class ContextManager(ScenarioContainer):
             screen (Screen): Экран
             message (BaseMessage): Сообщение
             context (Context): Контекст
-            form (Dict): Форма
+            form (dict): Форма
 
         Returns:
             Response
@@ -638,7 +638,7 @@ class ContextManager(ScenarioContainer):
         return response
 
     async def _run_fallback(
-            self, screen: Screen, message: MessageToSkill, context: Context, form: Dict,
+            self, screen: Screen, message: MessageToSkill, context: Context, form: dict,
     ) -> Optional[Response]:
         """
         ## Запуск обработчика fallback. Значит, не смогли найти подходящего обработчика на голосовой запрос.
@@ -647,7 +647,7 @@ class ContextManager(ScenarioContainer):
             screen (Screen): Экран
             message (MessageToSkill): Сообщение
             context (Context): Контекст
-            form (Dict): Форма
+            form (dict): Форма
 
         Returns:
             Response

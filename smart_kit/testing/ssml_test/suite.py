@@ -1,7 +1,7 @@
 import re
 import requests
 from lxml import etree
-from typing import Tuple, Dict, Callable, Any, List, Optional
+from typing import Tuple, Optional
 
 
 from core.logging.logger_utils import log
@@ -21,7 +21,7 @@ class SsmlTestSuite:
     def test_statics(
             self,
             resources: SmartAppResources,
-            ssml_resources: List[str]
+            ssml_resources: list[str]
     ) -> bool:
         ssml_strings = self.collect_ssml_strings(resources, ssml_resources)
         success_num = 0
@@ -34,8 +34,8 @@ class SsmlTestSuite:
     def collect_ssml_strings(
             self,
             resources: SmartAppResources,
-            ssml_resources: List[str]
-    ) -> List[Tuple[str, ObjectLocation]]:
+            ssml_resources: list[str]
+    ) -> list[Tuple[str, ObjectLocation]]:
         """Returns list of tuples of parsed ssml-string and their locations"""
         ssml_strings = []
         for resource_name in ssml_resources:

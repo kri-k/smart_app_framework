@@ -1,7 +1,6 @@
 # coding: utf-8
 import json
 from functools import cached_property
-from typing import List
 
 from core.descriptions.descriptions import Descriptions
 from core.model.queued_objects.limited_queued_hashable_objects_description import \
@@ -45,7 +44,7 @@ class BaseUser(Model):
         return BasicParametrizer(self, {})
 
     @property
-    def fields(self) -> List[Field]:
+    def fields(self) -> list[Field]:
         return [
             Field("counters", Counters),
             Field("last_action_ids", LimitedQueuedHashableObjectsItems, self.descriptions["last_action_ids"]),

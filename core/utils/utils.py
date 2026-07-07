@@ -5,11 +5,10 @@ import gc
 import json
 import os
 import re
-import weakref
 
 from collections import OrderedDict
 from math import isnan, isinf
-from typing import Optional, Any, Dict
+from typing import Optional, Any
 from time import time
 
 from scenarios.user.user_model import User
@@ -146,7 +145,7 @@ def deep_update_dict(original, update):
     return update
 
 
-def mask_numbers(message: Dict[str, Any]) -> Dict[str, Any]:
+def mask_numbers(message: dict[str, Any]) -> dict[str, Any]:
     masked_message = copy.deepcopy(message)
     items = masked_message.get("payload", {}).get("items", [])
     for item in items:

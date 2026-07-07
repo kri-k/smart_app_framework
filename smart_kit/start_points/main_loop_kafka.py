@@ -12,7 +12,7 @@ import time
 import tracemalloc
 from collections import namedtuple
 from functools import lru_cache, cached_property
-from typing import Union, Dict, TYPE_CHECKING
+from typing import Union, TYPE_CHECKING
 from kafka.errors import KafkaError
 
 import scenarios.logging.logger_constants as log_const
@@ -375,7 +375,7 @@ class MainLoop(BaseMainLoop):
 
         return answers
 
-    def _get_timeout_from_message(self, orig_message_raw: Dict, callback_id, headers):
+    def _get_timeout_from_message(self, orig_message_raw: dict, callback_id, headers):
         timeout_from_message = SmartAppFromMessage(orig_message_raw, headers=headers,
                                                    masking_fields=self.masking_fields,
                                                    validators=self.from_msg_validators,

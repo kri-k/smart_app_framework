@@ -2,7 +2,7 @@
 # Описание Payload для основных запросов.
 """
 
-from typing import Optional, List, Dict
+from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -53,13 +53,13 @@ class AssistantPayload(BaseModel):
     """Информация о текущем персонаже ассистента, который установлен у пользователя."""
     strategies: Optional[Strategies] = Field(default=None)
     """Возможные стратегии смартапа."""
-    smartBio: Optional[Dict] = Field(default=None)
+    smartBio: Optional[dict] = Field(default=None)
     """Данные от биометрии"""
-    contentProvider: Optional[Dict] = Field(default=None)
+    contentProvider: Optional[dict] = Field(default=None)
     """Проброс payload для звонков вк"""
     epkId: Optional[str] = Field(default=None)
     """ЕПК ID"""
-    ufs_info: Optional[Dict] = Field(default=None)
+    ufs_info: Optional[dict] = Field(default=None)
     """Блок с куками для ЕФС"""
     applicationId: Optional[str] = Field(default=None)
     """Id апликейшена проекта из апп дир"""
@@ -69,32 +69,32 @@ class AssistantPayload(BaseModel):
     """Токен поверхности"""
     tokenType: Optional[str] = Field(default=None)
     """Тип токена"""
-    client_profile: Optional[Dict] = Field(default=None)
+    client_profile: Optional[dict] = Field(default=None)
     """
     Передается во внутренние аппы и в Axon, если DP удалось получить профиль.
     Профиль обновляется не каждый запрос а N раз в день. Профиль - ЕПК.
     """
     feature_launcher: Optional[FeatureLauncher] = Field(default=None)
     """Коллекция флагов для проведения экспериментов для сервисов и навыков Виртуального Ассистента"""
-    reverseGeocoding: Optional[Dict] = Field(default=None)
+    reverseGeocoding: Optional[dict] = Field(default=None)
     """Данные от сервиса геокодинга"""
-    legacyEribInfo: Optional[Dict] = Field(default=None)
+    legacyEribInfo: Optional[dict] = Field(default=None)
     """Поддержка токена ЕРИБ"""
-    dynamic_stuff: Optional[Dict] = Field(default=None)
+    dynamic_stuff: Optional[dict] = Field(default=None)
     """Динамические данные"""
-    backInfo: Optional[List] = Field(default=None)
+    backInfo: Optional[list] = Field(default=None)
     """Данные для доступа к брокерским счетам"""
-    permitted_actions: Optional[List] = Field(default=None)
+    permitted_actions: Optional[list] = Field(default=None)
     """Список согласий этого пользователя которые он дал этому навыку"""
-    additional_info: Optional[Dict] = Field(default=None)
+    additional_info: Optional[dict] = Field(default=None)
     """Дополнительные данные для запуска приложения"""
-    domain_search: Optional[Dict] = Field(default=None)
+    domain_search: Optional[dict] = Field(default=None)
     """Результат поиска сущностей по домену"""
-    linkedSmartapp: Optional[Dict] = Field(default=None)
+    linkedSmartapp: Optional[dict] = Field(default=None)
     """Информация о навыке, который запускает прилинкованный навык в случае если исходный навык недоступен"""
-    last_messages_new: Optional[Dict] = Field(default=None)
+    last_messages_new: Optional[dict] = Field(default=None)
     """N последних сообщениq от пользователя + интент + ответы ассистента для аксон"""
-    last_messages: Optional[Dict] = Field(default=None)
+    last_messages: Optional[dict] = Field(default=None)
     """N последних сообщениq от пользователя + интент + ответы ассистента"""
     dp_first_session: Optional[bool] = Field(default=None)
     """
@@ -105,9 +105,9 @@ class AssistantPayload(BaseModel):
     """Флаг первой сессии из VPS. Передается только в навыки "приветствий" """
     employeeId: Optional[str] = Field(default=None)
     """Идентификатор сотрудника. Передается только для внутренних навыков"""
-    employee_profile: Optional[Dict] = Field(default=None)
+    employee_profile: Optional[dict] = Field(default=None)
     """Профиль сотрудника. Передается только для внутренних навыков и только в канале B2E"""
-    debug_info: Optional[Dict] = Field(default=None)
+    debug_info: Optional[dict] = Field(default=None)
     """Дебаг информация по сервисам"""
 
 
@@ -127,7 +127,7 @@ class MessageToSkillPayload(AssistantPayload):
 
     message: Message
     """Результат предобработки сообщения."""
-    intent_meta: Optional[Dict] = Field(default=None)
+    intent_meta: Optional[dict] = Field(default=None)
     """
     Мета данные, полученные от сервиса распознавания интентов.
     Поле будет использовано в будущем. В текущей реализации содержит пустой объект.
