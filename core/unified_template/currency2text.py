@@ -1,6 +1,5 @@
 from math import modf
-import pymorphy2
-from pymorphy2.shapes import restore_capitalization
+from smart_kit.text_preprocessing.pymorphy_compat import pymorphy2, restore_capitalization
 
 CURRENCY_CODE_2_NAME_MAP = {
     "USD": "доллар США",

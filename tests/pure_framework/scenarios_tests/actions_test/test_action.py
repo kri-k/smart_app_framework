@@ -1,5 +1,5 @@
 import unittest
-from typing Any, Union, Optional
+from typing import Any, Union, Optional
 from unittest.mock import Mock, ANY
 
 from core.basic_models.actions.basic_actions import Action, action_factory, actions

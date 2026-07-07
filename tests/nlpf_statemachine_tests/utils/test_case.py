@@ -3,7 +3,7 @@
 """
 import json
 from datetime import datetime
-from typing Optional, Union
+from typing import Optional, Union
 from unittest import TestCase, IsolatedAsyncioTestCase
 
 from pydantic import BaseModel

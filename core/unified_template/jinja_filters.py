@@ -4,12 +4,11 @@ import json
 import functools
 import jinja2
 import datetime
-import pymorphy2
-import uuid
-import ics
 import hashlib
+import ics
 import random
-from pymorphy2.shapes import restore_capitalization
+import uuid
+from smart_kit.text_preprocessing.pymorphy_compat import pymorphy2, restore_capitalization
 from core.unified_template.num2ordinal import Num2Ordinal
 from core.unified_template.num2text import Num2Text
 from urllib.parse import quote, unquote

@@ -1,5 +1,5 @@
 import re
-import pymorphy2
+from smart_kit.text_preprocessing.pymorphy_compat import pymorphy2
 from core.text_preprocessing.grammem.grammem_constants import GRAMMEM_INFO, PART_OF_SPEECH, LEMMA, TEXT, TOKEN_TYPE, \
     LIST_OF_TOKEN_TYPES_DATA, TOKEN_VALUE, VALUE, RAW_GRAM_INFO, OTHER, TRANSITIVITY, ANIMACY, ASPECT
 

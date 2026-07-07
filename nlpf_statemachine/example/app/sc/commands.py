@@ -1,7 +1,7 @@
 """
 # Генераторы команд.
 """
-from typing Union
+from typing import Union
 
 from nlpf_statemachine.models import AssistantCommand, CanvasAppItem, SmartAppDataCommand
 from .models.commands import CustomCommand

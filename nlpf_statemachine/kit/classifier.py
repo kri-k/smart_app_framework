@@ -2,7 +2,7 @@
 # Классификаторы.
 """
 
-from typing Optional
+from typing import Optional
 
 import yaml
 

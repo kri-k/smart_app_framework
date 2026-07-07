@@ -1,7 +1,7 @@
 """
 # Данные о содержимом экрана пользователя.
 """
-from typing Optional
+from typing import Optional
 
 from pydantic import BaseModel, Field
 

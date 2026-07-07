@@ -158,7 +158,7 @@ class ScenarioHistoryTest(TestCase):
 
         formatter = HistoryEventFormatter()
 
-        self.assertlistEqual(formatter.format(events), expected)
+        self.assertListEqual(formatter.format(events), expected)
 
     def test_get_events(self):
         descriptions = PicklableMock()

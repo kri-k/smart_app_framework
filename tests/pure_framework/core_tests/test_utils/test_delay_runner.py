@@ -16,7 +16,7 @@ class TestDelayRunner(TestCase):
 
     def test_set_run_time(self):
         self.assertEqual(self.delay_runner._run_item, self.run)
-        self.assertlistEqual(self.delay_runner._run_args, [self.arg])
+        self.assertListEqual(self.delay_runner._run_args, [self.arg])
         self.assertTrue(self.delay_runner._ts - time.time() <= self.max_delay_s)
 
     def test_check_can_run(self):

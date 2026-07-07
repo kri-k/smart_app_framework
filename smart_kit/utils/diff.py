@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 from functools import singledispatchmethod
-from typing Any, Tuple
+from typing import Any, Tuple
 
 import tabulate
 

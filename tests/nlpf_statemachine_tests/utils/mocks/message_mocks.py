@@ -2,7 +2,7 @@
 # Моки различных типов сообщений в апп.
 """
 from random import choice, randint
-from typing Optional, Type, Union
+from typing import Optional, Type, Union
 
 from core.logging.logger_utils import behaviour_log
 from nlpf_statemachine.const import AssistantAthena, AssistantJoy, AssistantSber

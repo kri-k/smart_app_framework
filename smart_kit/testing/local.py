@@ -3,7 +3,7 @@ import cmd
 import json
 import os
 import pprint
-from typing Optional, Tuple, Any
+from typing import Optional, Tuple, Any
 from functools import cached_property
 
 from core.descriptions.descriptions import Descriptions

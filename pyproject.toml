@@ -17,23 +17,31 @@ classifiers = [
 
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.12"
+python = ">=3.10,<3.15"
 aiohttp = ">3.10.5"
-boto = "2.49.0"
+boto = {version = "2.49.0", python = "<3.12"}
+boto3 = {version = "^1.35.99", python = ">=3.12"}
 cachetools = "5.3.0"
 croniter = "1.3.7"
 dill = "0.3.6"
 ics = "0.6"
 Jinja2 = "3.1.6"
-keras = {version = "2.12.0", optional = true}
+keras = {version = "2.12.0", python = "<3.12", optional = true}
 nltk = "3.9.3"
-numpy = "1.23.5"
+numpy = [
+    {version = "1.23.5", python = "<3.12"},
+    {version = "1.26.4", python = ">=3.12,<3.13"},
+    {version = "2.1.0", python = ">=3.13,<3.14"},
+    {version = "2.2.6", python = ">=3.14"},
+]
 objgraph = "3.4.1"
 prometheus-client = "0.11.0"
 psutil = "5.9.4"
 pyignite = "0.6.1"
-pymorphy2 = "0.8"
-pymorphy2_dicts = "2.4.393442.3710985"
+pymorphy2 = {version = "0.8", python = "<3.12"}
+pymorphy2_dicts = {version = "2.4.393442.3710985", python = "<3.12"}
+pymorphy3 = {version = "2.0.6", python = ">=3.12"}
+pymorphy3-dicts-ru = {version = "2.4.417150.4580142", python = ">=3.12"}
 python-dateutil = "2.7.3"
 python-json-logger = "0.1.11"
 PyYAML = "6.0.1"
@@ -42,19 +50,24 @@ rusenttokenize = "0.0.5"
 scikit-learn = [
     {version = "1.1.2", python = "<3.11", optional = true},
     {version = "1.2.0", python = "3.11.*", optional = true},
+    {version = "1.5.2", python = ">=3.12,<3.13", optional = true},
+    {version = "1.6.1", python = ">=3.13", optional = true},
 ]
 setuptools = ">75.2.0"
 tabulate = "0.9.0"
 tensorflow = [
-    {version = "2.12.0", markers = "sys_platform == 'darwin' and platform_machine == 'x86_64'", optional = true},
-    {version = "2.12.0", markers = "sys_platform == 'linux' and platform_machine == 'x86_64'", optional = true},
+    {version = "2.12.0", markers = "sys_platform == 'darwin' and platform_machine == 'x86_64' and python_version < '3.12'", optional = true},
+    {version = "2.12.0", markers = "sys_platform == 'linux' and platform_machine == 'x86_64' and python_version < '3.12'", optional = true},
 ]
-tensorflow-macos = {version = "2.12.0", markers = "sys_platform == 'darwin' and platform_machine == 'arm64'", optional = true}
-tensorflow-aarch64 = {version = "2.12.0", markers = "sys_platform == 'linux' and platform_machine == 'aarch64'", optional = true}
+tensorflow-macos = {version = "2.12.0", markers = "sys_platform == 'darwin' and platform_machine == 'arm64' and python_version < '3.12'", optional = true}
+tensorflow-aarch64 = {version = "2.12.0", markers = "sys_platform == 'linux' and platform_machine == 'aarch64' and python_version < '3.12'", optional = true}
 timeout-decorator = "0.4.1"
 tqdm = ">=4.66.3"
 freezegun = "1.1.0"
-lxml = "4.9.2"
+lxml = [
+    {version = "4.9.2", python = "<3.12"},
+    {version = "5.3.0", python = ">=3.12"},
+]
 twisted = "24.11.0"
 urllib3 = ">=2.0.0"
 certifi = ">=2024.7.4"
@@ -71,7 +84,10 @@ ml = ["keras", "scikit-learn", "tensorflow", "tensorflow-macos", "tensorflow-aar
 flake8 = "6.0.0"
 taskipy = "1.10.3"
 black = "22.12.0"
-pydantic = "2.10.3"
+pydantic = [
+    {version = "2.10.3", python = "<3.14"},
+    {version = "2.13.4", python = ">=3.14"},
+]
 
 [tool.taskipy.tasks]
 lint = "flake8 . --max-line-length=120 --ignore W504,W605,F401 --exclude=smart_kit/utils/SmartAppToMessage_pb2.py"

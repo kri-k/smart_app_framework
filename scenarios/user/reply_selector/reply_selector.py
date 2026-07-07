@@ -1,5 +1,5 @@
 import random
-from typing Any
+from typing import Any
 
 from core.model.base_user import BaseUser as User
 from core.unified_template.unified_template import UnifiedTemplate

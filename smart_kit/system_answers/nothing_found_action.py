@@ -1,4 +1,4 @@
-from typing Any, Optional, Union
+from typing import Any, Optional, Union
 
 from core.basic_models.actions.basic_actions import Action
 from core.basic_models.actions.string_actions import StringAction

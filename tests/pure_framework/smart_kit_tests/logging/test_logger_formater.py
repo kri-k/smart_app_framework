@@ -1,7 +1,7 @@
 import json
 import unittest
 from logging import LogRecord
-from typing Any
+from typing import Any
 from unittest.mock import Mock
 
 from smart_kit.utils.logger_writer.logger_formatter import SmartKitJsonFormatter

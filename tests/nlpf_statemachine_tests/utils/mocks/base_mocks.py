@@ -2,7 +2,7 @@
 # Коллекция базовых моков для NLPF StateMachine.
 """
 
-from typing Optional, Type, Union
+from typing import Optional, Type, Union
 
 from core.logging.logger_utils import behaviour_log
 from core.message.from_message import SmartAppFromMessage

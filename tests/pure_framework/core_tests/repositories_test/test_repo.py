@@ -117,7 +117,7 @@ class FolderRepositoryTest(unittest.TestCase):
         test_repository = FolderRepository('', loader=json.loads,
                                            source=MockSource(self.folder_content_test_list))
         test_repository.load()
-        self.assertlistEqual(test_repository.data, ['a', 'b', 'c', 'd'])
+        self.assertListEqual(test_repository.data, ['a', 'b', 'c', 'd'])
 
     def test_repo_wrong_content(self):
         test_repository = FolderRepository('', loader=json.loads,
