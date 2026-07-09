@@ -91,11 +91,12 @@ class ClassifierRepository(BaseRepository):
 
             classifier_type = classifier_params["type"]
             if classifier_type not in self._supported_classifiers_types:
+                log_params = {scenarios_log_const.KEY_NAME: scenarios_log_const.STARTUP_VALUE,
+                              scenarios_log_const.CLASSIFIER_VALUE: classifier_key}
                 log(
                     message=f"classifier_repository.load: Invalid classifier type for classifier "
                             f"%({scenarios_log_const.CLASSIFIER_VALUE})s",
-                    params={scenarios_log_const.KEY_NAME: scenarios_log_const.STARTUP_VALUE,
-                            scenarios_log_const.CLASSIFIER_VALUE: classifier_key},
+                    params=log_params,
                     level='WARN'
                 )
                 classifiers_dict[classifier_key] = SkipClassifier.get_nothing()
@@ -138,11 +139,12 @@ class ClassifierRepository(BaseRepository):
                     repository.load()
                 classifier_params["classifier"] = repository.data
             except FileNotFoundError:
+                log_params = {scenarios_log_const.KEY_NAME: scenarios_log_const.STARTUP_VALUE,
+                              scenarios_log_const.CLASSIFIER_VALUE: classifier_key}
                 log(
                     message=f"classifier_repository.load: Failed to load classifier "
                             f"%({scenarios_log_const.CLASSIFIER_VALUE})s, file not found",
-                    params={scenarios_log_const.KEY_NAME: scenarios_log_const.STARTUP_VALUE,
-                            scenarios_log_const.CLASSIFIER_VALUE: classifier_key},
+                    params=log_params,
                     level="WARN"
                 )
                 classifiers_dict[classifier_key] = SkipClassifier.get_nothing()
