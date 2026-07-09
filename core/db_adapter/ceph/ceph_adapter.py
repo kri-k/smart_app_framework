@@ -1,5 +1,37 @@
 import fnmatch
 import ssl
+import sys
+import types
+
+if sys.version_info >= (3, 12):
+    # `boto` (the legacy, unmaintained v2 SDK) is incompatible out of the box with
+    # Python 3.12+: it vendors a very old `six` (whose meta path importer predates
+    # PEP 451 and is silently ignored by 3.12+'s import system) and unconditionally
+    # imports the `imp` module, which was removed in 3.12. Neither issue is hit by
+    # the functionality this adapter actually relies on (plain S3 connection/IO), so
+    # we patch them up before `boto` is imported for the first time.
+    if "imp" not in sys.modules:
+        def _imp_removed(*_args, **_kwargs):
+            raise ModuleNotFoundError(
+                "The 'imp' module was removed in Python 3.12. This compatibility "
+                "shim (added for the legacy 'boto' package) does not implement "
+                "boto's plugin loading, which this framework does not use."
+            )
+
+        _imp_stub = types.ModuleType("imp")
+        _imp_stub.find_module = _imp_removed
+        _imp_stub.load_module = _imp_removed
+        sys.modules["imp"] = _imp_stub
+
+    if "boto.vendored.six" not in sys.modules:
+        import importlib.util
+
+        import six as _six
+
+        _spec = importlib.util.spec_from_file_location("boto.vendored.six", _six.__file__)
+        _boto_six = importlib.util.module_from_spec(_spec)
+        sys.modules["boto.vendored.six"] = _boto_six
+        _spec.loader.exec_module(_boto_six)
 
 import boto
 import boto.s3.connection as s3_connection
