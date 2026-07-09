@@ -306,7 +306,7 @@ class MonitoringProxy:
         return decor_
 
     def set_instance(self, cls):
-        if type(self.instance) != cls:
+        if type(self.instance) is not cls:
             self.instance = cls()
 
     def __getattr__(self, item):
