@@ -1,5 +1,4 @@
 from __future__ import annotations
-import asyncio
 import json
 import os
 from csv import DictWriter, QUOTE_MINIMAL
@@ -9,6 +8,7 @@ from collections.abc import Callable
 
 from core.configs.global_constants import LINK_BEHAVIOR_FLAG
 from core.message.from_message import SmartAppFromMessage
+from core.utils.event_loop import get_or_create_event_loop
 from core.utils.utils import deep_update_dict
 from scenarios.user.user_model import User
 from smart_kit.compatibility.commands import combine_commands
@@ -49,7 +49,7 @@ def run_testfile(
             csv_case_callback = csv_file_callback(test_case)
         else:
             csv_case_callback = None
-        if asyncio.get_event_loop().run_until_complete(test_case_cls(
+        if get_or_create_event_loop().run_until_complete(test_case_cls(
             app_model,
             settings,
             user_cls,

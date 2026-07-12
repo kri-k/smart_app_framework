@@ -1,4 +1,3 @@
-import asyncio
 import json
 from functools import cached_property
 
@@ -96,8 +95,8 @@ class AIOHttpMainLoop(BaseHttpMainLoop):
         aiohttp_config = self.settings["aiohttp"]
         if not aiohttp_config:
             log("aiohttp.yml is empty or missing. Server will be started with default parameters", level="WARN")
-        asyncio.get_event_loop().run_until_complete(self.async_init())
-        aiohttp.web.run_app(app=self.app, loop=asyncio.get_event_loop(), **aiohttp_config)
+        self.loop.run_until_complete(self.async_init())
+        aiohttp.web.run_app(app=self.app, loop=self.loop, **aiohttp_config)
 
     def stop(self, signum, frame):
         pass
