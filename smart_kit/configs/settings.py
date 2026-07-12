@@ -12,6 +12,7 @@ from core.db_adapter.ceph.ceph_adapter import CephAdapter
 from core.db_adapter.db_adapter import DBAdapter
 from core.db_adapter.os_adapter import OSAdapter
 from core.repositories.file_repository import UpdatableFileRepository, FileRepository
+from core.utils.event_loop import get_or_create_event_loop
 from core.repositories.secret_file_repository import SecretUpdatableFileRepository
 from core.utils.singleton import SingletonOneInstance
 from smart_kit.configs import get_app_config
@@ -63,7 +64,7 @@ class Settings(BaseConfig, metaclass=SingletonOneInstance):
         self.secret_path = kwargs.get("secret_path")
         self.app_name = kwargs.get("app_name")
         self.adapters = {Settings.CephAdapterKey: CephAdapter, self.OSAdapterKey: OSAdapter}
-        self.loop = asyncio.get_event_loop()
+        self.loop = get_or_create_event_loop()
         self.repositories = self._load_base_repositories()
         self.repositories = self.override_repositories(self.repositories)
         self.init()
