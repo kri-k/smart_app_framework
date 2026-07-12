@@ -10,7 +10,8 @@ if _get_distribution_safe("tensorflow") is None:
 
 import os
 from collections import OrderedDict
-from typing import Callable, Any, Dict
+from typing import Any
+from collections.abc import Callable
 
 import tensorflow as tf
 from tensorflow.keras.utils import CustomObjectScope
@@ -28,7 +29,7 @@ from core.text_preprocessing.preprocessing_result import TextPreprocessingResult
 CLASSIFIER_TYPES_MAP = OrderedDict({"scikit": SciKitClassifier, "skip": SkipClassifier, "external": ExternalClassifier})
 
 
-def classifiers_initial_launch(classifiers: Dict[str, Any]) -> None:
+def classifiers_initial_launch(classifiers: dict[str, Any]) -> None:
     # external классификаторы должны запускаться последними
     type_order = [_type for _type in CLASSIFIER_TYPES_MAP]
     sorted_cls_by_type_order = OrderedDict(sorted(classifiers.items(), key=lambda i: type_order.index(i[1]["type"])))
@@ -43,7 +44,7 @@ def classifiers_initial_launch(classifiers: Dict[str, Any]) -> None:
 class ClassifierRepository(BaseRepository):
 
     def __init__(self, description_path: str, data_path: str, loader: Callable, source: str, *args, **kwargs) -> None:
-        super(ClassifierRepository, self).__init__(source=source, *args, **kwargs)
+        super().__init__(source=source, *args, **kwargs)
         self._description_path = description_path
         self._data_path = data_path
         self._required_classifier_config_params = REQUIRED_CONFIG_PARAMS
@@ -63,7 +64,7 @@ class ClassifierRepository(BaseRepository):
             res = True
         return res
 
-    def _check_classifier_config(self, classifier_key: str, classifier_params: Dict[str, Any]) -> None:
+    def _check_classifier_config(self, classifier_key: str, classifier_params: dict[str, Any]) -> None:
         for req_param in self._required_classifier_config_params:
             try:
                 classifier_params[req_param]
@@ -90,11 +91,12 @@ class ClassifierRepository(BaseRepository):
 
             classifier_type = classifier_params["type"]
             if classifier_type not in self._supported_classifiers_types:
+                log_params = {scenarios_log_const.KEY_NAME: scenarios_log_const.STARTUP_VALUE,
+                              scenarios_log_const.CLASSIFIER_VALUE: classifier_key}
                 log(
                     message=f"classifier_repository.load: Invalid classifier type for classifier "
                             f"%({scenarios_log_const.CLASSIFIER_VALUE})s",
-                    params={scenarios_log_const.KEY_NAME: scenarios_log_const.STARTUP_VALUE,
-                            scenarios_log_const.CLASSIFIER_VALUE: classifier_key},
+                    params=log_params,
                     level='WARN'
                 )
                 classifiers_dict[classifier_key] = SkipClassifier.get_nothing()
@@ -137,16 +139,17 @@ class ClassifierRepository(BaseRepository):
                     repository.load()
                 classifier_params["classifier"] = repository.data
             except FileNotFoundError:
+                log_params = {scenarios_log_const.KEY_NAME: scenarios_log_const.STARTUP_VALUE,
+                              scenarios_log_const.CLASSIFIER_VALUE: classifier_key}
                 log(
                     message=f"classifier_repository.load: Failed to load classifier "
                             f"%({scenarios_log_const.CLASSIFIER_VALUE})s, file not found",
-                    params={scenarios_log_const.KEY_NAME: scenarios_log_const.STARTUP_VALUE,
-                            scenarios_log_const.CLASSIFIER_VALUE: classifier_key},
+                    params=log_params,
                     level="WARN"
                 )
                 classifiers_dict[classifier_key] = SkipClassifier.get_nothing()
 
-        super(ClassifierRepository, self).fill(classifiers_dict)
+        super().fill(classifiers_dict)
         classifiers_initial_launch(classifiers_dict)
 
     def save(self, save_parameters: Any) -> None:

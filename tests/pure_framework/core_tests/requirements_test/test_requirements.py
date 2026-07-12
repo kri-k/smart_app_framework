@@ -1,4 +1,5 @@
-import asyncio
+from __future__ import annotations
+
 import os
 import unittest
 from time import time
@@ -18,13 +19,14 @@ from core.basic_models.requirement.user_text_requirements import AnySubstringInL
     NormalizedTextInSetRequirement
 from core.basic_models.variables.variables import Variables
 from core.model.registered import registered_factories
+from core.utils.event_loop import get_or_create_event_loop
 from smart_kit import configs
 from smart_kit.text_preprocessing.local_text_normalizer import LocalTextNormalizer
 from smart_kit.utils.picklable_mock import PicklableMock
 
 
 def _run(coro):
-    return asyncio.get_event_loop().run_until_complete(coro)
+    return get_or_create_event_loop().run_until_complete(coro)
 
 
 def patch_get_app_config(mock_get_app_config):

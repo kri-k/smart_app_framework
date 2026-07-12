@@ -1,11 +1,13 @@
-from typing import Type, Iterable, Optional
-import asyncio
+from __future__ import annotations
+
+from collections.abc import Iterable
 import signal
 
 import scenarios.logging.logger_constants as log_const
 from core.db_adapter.db_adapter import DBAdapterException
 from core.db_adapter.db_adapter import db_adapter_factory
 from core.logging.logger_utils import log
+from core.utils.event_loop import get_or_create_event_loop
 from core.message.from_message import SmartAppFromMessage
 from core.monitoring.monitoring import monitoring
 from core.monitoring.healthcheck_handler import RootResource
@@ -21,9 +23,9 @@ class BaseMainLoop:
 
     def __init__(
             self, model: SmartAppModel,
-            user_cls: Type[User],
-            parametrizer_cls: Type[BasicParametrizer],
-            postprocessor_cls: Type[PostprocessMainLoop],
+            user_cls: type[User],
+            parametrizer_cls: type[BasicParametrizer],
+            postprocessor_cls: type[PostprocessMainLoop],
             settings,
             to_msg_validators: Iterable[MessageValidator] = (),
             from_msg_validators: Iterable[MessageValidator] = (),
@@ -36,7 +38,7 @@ class BaseMainLoop:
         try:
             signal.signal(signal.SIGINT, self.stop)
             signal.signal(signal.SIGTERM, self.stop)
-            self.loop = asyncio.get_event_loop()
+            self.loop = get_or_create_event_loop()
             self.settings = settings
             self.app_name = self.settings.app_name
             self.model: SmartAppModel = model
@@ -96,7 +98,7 @@ class BaseMainLoop:
         monitoring.apply_config(monitoring_config)
         monitoring.init_metrics(app_name=self.app_name)
 
-    async def load_user(self, db_uid: Optional[str], message: SmartAppFromMessage) -> User:
+    async def load_user(self, db_uid: str | None, message: SmartAppFromMessage) -> User:
         if db_uid is None:
             ignore_empty_user_error = self.settings["template_settings"].get("ignore_empty_user_error", False)
             level = "WARNING" if ignore_empty_user_error else "ERROR"
@@ -116,7 +118,7 @@ class BaseMainLoop:
             raise
         return self.get_user(message, db_data, load_error=False)
 
-    def get_user(self, message: SmartAppFromMessage, db_data: Optional[dict], load_error: bool) -> User:
+    def get_user(self, message: SmartAppFromMessage, db_data: dict | None, load_error: bool) -> User:
         return self.user_cls(
             id=message.uid,
             message=message,
@@ -127,7 +129,7 @@ class BaseMainLoop:
             load_error=load_error
         )
 
-    async def save_user(self, db_uid: Optional[str], user: User, message: SmartAppFromMessage) -> bool:
+    async def save_user(self, db_uid: str | None, user: User, message: SmartAppFromMessage) -> bool:
         """
         :return: True if there were no any collisions when saving, False otherwise
         """

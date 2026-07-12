@@ -1,13 +1,15 @@
-import asyncio
+from __future__ import annotations
+
 import cmd
 import json
 import os
 import pprint
-from typing import Dict, Optional, Tuple, Any
+from typing import Any
 from functools import cached_property
 
 from core.descriptions.descriptions import Descriptions
 from core.message.from_message import SmartAppFromMessage
+from core.utils.event_loop import get_or_create_event_loop
 from smart_kit.compatibility.commands import combine_commands
 from smart_kit.testing import suite
 from smart_kit.testing import utils
@@ -44,12 +46,12 @@ class CLInterface(cmd.Cmd):
 
         predefined_fields_storage_path = os.path.join(self.references_path, "./predefined_fields_storage.json")
         if os.path.exists(predefined_fields_storage_path):
-            with open(str(predefined_fields_storage_path), "r") as f:
+            with open(str(predefined_fields_storage_path)) as f:
                 self.storaged_predefined_fields = json.load(f)
         else:
             self.storaged_predefined_fields = {}
 
-    def after_process_message(self, message) -> Optional[str]:
+    def after_process_message(self, message) -> str | None:
         callback = getattr(self, f"on_{message.name.lower()}", lambda *args, **kwargs: None)
         return callback(message)
 
@@ -74,14 +76,14 @@ class CLInterface(cmd.Cmd):
             params = ans["payload"]
             for k in CLInterface.VPS_KEYS:
                 if params.get(k):
-                    resp += "{}: {}\n".format(k, params[k])
+                    resp += f"{k}: {params[k]}\n"
             if not resp:
                 resp += "answer: <пустой ответ>\n"
             for key in filter(lambda key: key not in CLInterface.VPS_KEYS, params.keys()):
                 if isinstance(params[key], list):
-                    resp += "\t" + " | ".join("[{:^40}]".format(item) for item in params[key]) + "\n"
+                    resp += "\t" + " | ".join(f"[{item:^40}]" for item in params[key]) + "\n"
                 else:
-                    resp += "Other node {}:\t{}\n".format(key, params[key])
+                    resp += f"Other node {key}:\t{params[key]}\n"
         else:
             resp += json.dumps(ans)
         return resp.strip()
@@ -140,7 +142,7 @@ class CLInterface(cmd.Cmd):
         self.environment.intent = self.available_scenarios[0]
         print("Текущий сценарий: ", self.environment.intent)
 
-    def process_message(self, raw_message: Dict, headers: tuple = ()) -> Tuple[Any, list]:
+    def process_message(self, raw_message: dict, headers: tuple = ()) -> tuple[Any, list]:
         from smart_kit.configs import get_app_config
         masking_fields = self.settings["template_settings"].get("masking_fields")
         message = SmartAppFromMessage(raw_message, headers=headers, masking_fields=masking_fields,
@@ -148,7 +150,7 @@ class CLInterface(cmd.Cmd):
         user = self.__user_cls(self.environment.user_id, message, self.user_data, self.settings,
                                self.app_model.scenario_descriptions,
                                self.__parametrizer_cls, load_error=False)
-        answers = asyncio.get_event_loop().run_until_complete(self.app_model.answer(message, user))
+        answers = get_or_create_event_loop().run_until_complete(self.app_model.answer(message, user))
         return user, answers or []
 
     def default(self, _input: str):
@@ -177,7 +179,7 @@ class CLInterface(cmd.Cmd):
 
         for answer in answers:
             ans = answer.raw
-            print("{}\nrequest type: {}\n".format(self.format_answer_value(ans), answer.request_type))
+            print(f"{self.format_answer_value(ans)}\nrequest type: {answer.request_type}\n")
             if ans["messageName"] == "ANSWER_TO_USER":
                 params = ans["payload"]
                 intent = params.get("intent")
