@@ -10,8 +10,10 @@ def get_or_create_event_loop() -> asyncio.AbstractEventLoop:
     loop нужен вне корутины (например, при синхронной инициализации).
     """
     try:
-        return asyncio.get_event_loop()
+        loop = asyncio.get_event_loop()
     except RuntimeError:
+        loop = None
+    if loop is None or loop.is_closed():
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        return loop
+    return loop

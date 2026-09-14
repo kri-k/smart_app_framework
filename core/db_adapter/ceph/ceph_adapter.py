@@ -3,6 +3,7 @@ import ssl
 import sys
 import types
 
+_imp_stub = None
 if sys.version_info >= (3, 12):
     # `boto` (the legacy, unmaintained v2 SDK) is incompatible out of the box with
     # Python 3.12+: it vendors a very old `six` (whose meta path importer predates
@@ -33,15 +34,21 @@ if sys.version_info >= (3, 12):
         sys.modules["boto.vendored.six"] = _boto_six
         _spec.loader.exec_module(_boto_six)
 
-import boto
-import boto.s3.connection as s3_connection
-from boto.exception import BotoServerError, BotoClientError
+try:
+    import boto
+    import boto.s3.connection as s3_connection
+    from boto.exception import BotoServerError, BotoClientError
 
-import core.logging.logger_constants as log_const
-from core.db_adapter.ceph.ceph_io import CephIO
-from core.db_adapter.db_adapter import DBAdapter
-from core.logging.logger_utils import log
-from core.monitoring.monitoring import monitoring
+    import core.logging.logger_constants as log_const
+    from core.db_adapter.ceph.ceph_io import CephIO
+    from core.db_adapter.db_adapter import DBAdapter
+    from core.logging.logger_utils import log
+    from core.monitoring.monitoring import monitoring
+finally:
+    # boto.plugin keeps its own reference. Do not expose an incomplete stdlib
+    # module to the rest of the application (including importlib.find_spec).
+    if _imp_stub is not None and sys.modules.get("imp") is _imp_stub:
+        del sys.modules["imp"]
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
