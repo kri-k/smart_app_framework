@@ -13,6 +13,8 @@ import tracemalloc
 from collections import namedtuple
 from functools import lru_cache, cached_property
 from typing import Union, TYPE_CHECKING
+
+import core.mq.kafka  # noqa: F401  (applies the kafka-python Python 3.12+ compat shim before it is imported below)
 from kafka.errors import KafkaError
 
 import scenarios.logging.logger_constants as log_const

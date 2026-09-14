@@ -43,8 +43,10 @@ class TypeCastByAnnotation:
         return res
 
     def __setattr__(self, key: str, value):
-        if key in self.__annotations__:
-            _type = self.__annotations__[key]
+        # Python 3.14 exposes lazy class annotations on the class, not its instances.
+        annotations = type(self).__annotations__
+        if key in annotations:
+            _type = annotations[key]
             _type = TYPECAST_MAP.get(_type, as_is)
         else:
             _type = as_is

@@ -7,12 +7,21 @@ from unittest.mock import patch, PropertyMock
 
 from core.model.registered import Registered
 from core.repositories.base_repository import BaseRepository
-from core.repositories.classifier_repository import ClassifierRepository
 from core.repositories.dill_repository import DillRepository
 from core.repositories.folder_repository import FolderRepository
 from core.repositories.shard_repository import ShardRepository
 from core.utils.loader import ordered_json
+from core.utils.version import _get_distribution_safe
 from smart_kit.utils.picklable_mock import PicklableMock
+
+if _get_distribution_safe("tensorflow") is not None:
+    # `ClassifierRepository` requires the optional `ml` extra (tensorflow/scikit-learn),
+    # which is not available/installable for every supported Python version. Importing it
+    # unconditionally here would prevent the rest of this module's (unrelated) tests from
+    # running whenever the `ml` extra isn't installed.
+    from core.repositories.classifier_repository import ClassifierRepository
+else:
+    ClassifierRepository = None
 
 
 class MockDescriptionItem:
@@ -149,6 +158,7 @@ class TestDillRepository(unittest.TestCase):
         self.assertEqual(expected, rep.data)
 
 
+@unittest.skipUnless(ClassifierRepository, "smart-app-framework[ml] is not installed")
 class TestClassifierRepository(unittest.TestCase):
 
     def setUp(self):

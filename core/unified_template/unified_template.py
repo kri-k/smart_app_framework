@@ -2,7 +2,6 @@ import json
 import logging
 from copy import copy
 import jinja2
-from distutils.util import strtobool
 import os
 
 import core.logging.logger_constants as log_const
@@ -11,9 +10,19 @@ from core.monitoring.monitoring import monitoring
 
 UNIFIED_TEMPLATE_TYPE_NAME = "unified_template"
 
+_TRUE_VALUES = {"y", "yes", "t", "true", "on", "1"}
+_FALSE_VALUES = {"n", "no", "f", "false", "off", "0"}
+
 
 def bool_loader(val):
-    return bool(strtobool(val))
+    # distutils.util.strtobool was removed from the stdlib in Python 3.12.
+    # Keep the original truthy/falsy strings so template loaders stay compatible.
+    normalized = val.lower()
+    if normalized in _TRUE_VALUES:
+        return True
+    if normalized in _FALSE_VALUES:
+        return False
+    raise ValueError(f"invalid truth value {val!r}")
 
 
 class UnifiedTemplate:
