@@ -6,8 +6,7 @@ from aiokafka.abc import ConsumerRebalanceListener
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-    from kafka import TopicPartition
-    from aiokafka import AIOKafkaConsumer
+    from aiokafka import AIOKafkaConsumer, TopicPartition
 
 
 class CoreConsumerRebalanceListener(ConsumerRebalanceListener):

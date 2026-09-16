@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 from aiokafka import AIOKafkaConsumer, TopicPartition
 from aiokafka.helpers import create_ssl_context
-from kafka.errors import KafkaError
+from aiokafka.errors import KafkaError
 
 import core.logging.logger_constants as log_const
 from core.logging.logger_utils import log
