@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-import asyncio
 import signal
 
 import scenarios.logging.logger_constants as log_const
 from core.db_adapter.db_adapter import DBAdapterException
 from core.db_adapter.db_adapter import db_adapter_factory
 from core.logging.logger_utils import log
+from core.utils.event_loop import get_or_create_event_loop
 from core.message.from_message import SmartAppFromMessage
 from core.monitoring.monitoring import monitoring
 from core.monitoring.healthcheck_handler import RootResource
@@ -38,7 +38,7 @@ class BaseMainLoop:
         try:
             signal.signal(signal.SIGINT, self.stop)
             signal.signal(signal.SIGTERM, self.stop)
-            self.loop = asyncio.get_event_loop()
+            self.loop = get_or_create_event_loop()
             self.settings = settings
             self.app_name = self.settings.app_name
             self.model: SmartAppModel = model

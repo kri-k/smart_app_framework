@@ -4,6 +4,7 @@ import datetime
 from unittest import TestCase
 
 import jinja2
+import ics
 
 import core.unified_template.jinja_filters
 from core.unified_template.currency2text import Money2Text
@@ -148,12 +149,12 @@ class TestJinjaTemplates(TestCase):
         self.assertEqual(expected, self.money2text(num, cur))
 
     def test_ics(self):
-        date = datetime.datetime.now()
-
-        expected = "".join(map(str, [date.year, f"{date.month:02d}", f"{date.day:02d}"]))
+        date = datetime.datetime(2026, 9, 16, 12, 30, tzinfo=datetime.timezone.utc)
         got = core.unified_template.jinja_filters.generate_ics(date)
-        timestring = got.split()[2]  # Third row contains date
-        self.assertTrue(expected in timestring)
+        calendar = ics.Calendar(got)
+        self.assertEqual(len(calendar.events), 1)
+        event = next(iter(calendar.events))
+        self.assertEqual(event.begin.datetime, date)
 
     def test_date_from_timestamp(self):
         tstamp = 0

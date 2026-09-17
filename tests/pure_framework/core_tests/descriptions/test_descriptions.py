@@ -37,12 +37,12 @@ class DescriptionsTest(unittest.TestCase):
     def test_get1(self):
         item1 = self.descriptions["repo_key1"]
         assert item1.raw == "raw_1"
-        assert type(item1) == MockDescription1
+        assert type(item1) is MockDescription1
 
     def test_get2(self):
         item2 = self.descriptions["repo_key2"]
         assert item2.raw == "raw_2"
-        assert type(item2) == MockDescription2
+        assert type(item2) is MockDescription2
 
     def test_get3(self):
         item2 = self.descriptions["repo_key3"]

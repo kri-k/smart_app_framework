@@ -13,7 +13,8 @@ import tracemalloc
 from collections import namedtuple
 from functools import lru_cache, cached_property
 from typing import Union, TYPE_CHECKING
-from kafka.errors import KafkaError
+
+from aiokafka.errors import KafkaError
 
 import scenarios.logging.logger_constants as log_const
 from core.basic_models.actions.command import Command

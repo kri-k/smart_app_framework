@@ -42,7 +42,12 @@ ____
 
 * Linux, Mac OS или Windows (необходима установка [Conda](https://docs.conda.io/en/latest/)).
 * 512 МБ свободной памяти.
-* Python 3.9 - 3.11.
+* Python 3.10 - 3.14.
+
+Опциональный набор зависимостей `smart-app-framework[ml]` (TensorFlow, Keras,
+scikit-learn) поддерживается только на Python 3.10–3.11. На Python 3.12–3.14
+эти зависимости не устанавливаются даже при выборе `[ml]`; для приложений,
+использующих `ClassifierRepository`, нужен Python 3.10 или 3.11.
 
 ____
 

@@ -44,7 +44,7 @@ def generate_ics(date):
     calendar = ics.Calendar()
     event = ics.Event(begin=date)
     calendar.events.add(event)
-    return str(calendar)
+    return calendar.serialize()
 
 
 def timestamp_to_datetime(timestamp, utc_offset=0):

@@ -165,7 +165,7 @@ class StringFileUnifiedTemplateAction(StringAction):
         params = copy(params) or {}
         collected = user.parametrizer.collect(text_preprocessing_result, filter_params={"command": self.command})
         params.update(collected)
-        if type(self.nodes) == UnifiedTemplateMultiLoader:
+        if type(self.nodes) is UnifiedTemplateMultiLoader:
             command_params = self._get_rendered_tree(self.nodes, params, self.no_empty_nodes)
         else:
             for key, value in self.nodes.items():
